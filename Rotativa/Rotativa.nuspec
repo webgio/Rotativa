@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Rotativa</id>
+    <version>1.0</version>
+    <title>Rotativa</title>
+    <authors>Giorgio Bozio</authors>
+    <owners>Giorgio Bozio</owners>
+    <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
+    <!--<projectUrl></projectUrl>
+    <iconUrl></iconUrl>-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Print Pdf in Aspnet Mvc</description>
+    <releaseNotes>First pre alpha release</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>AspNetMvc Pdf</tags>
+  </metadata>
+  <!--<files>
+    <file src="Browsers\*.*" target="App_Browsers" />
+    --><!--<file src="Rotativa\*.*" target="" />--><!--
+  </files>-->
+</package>
