@@ -1,0 +1,19 @@
+﻿Extremely easy way to create Pdf files from Asp.net MVC.
+
+Usage:
+
+public ActionResult PrintIndex()
+{
+    return new ActionAsPdf("Index", new { name = "Giorgio" }) { FileName = "Test.pdf" };
+}
+
+public ActionResult Index(string name)
+{
+    ViewBag.Message = string.Format("Hello {0} to ASP.NET MVC!", name);
+
+    return View();
+}
+
+Also available a RouteAsPdf ActionResult.
+
+It generates Pdf also from authorized actions (web forms authentication).
