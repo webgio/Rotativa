@@ -11,16 +11,18 @@ using System.Web.Security;
 
 namespace Rotativa
 {
-    public abstract class AsPdfResultBase: ActionResult
+    public abstract class AsPdfResultBase : ActionResult
     {
         private const string ContentType = "application/pdf";
 
         public string FileName { get; set; }
         public string WkhtmltopdfPath { get; set; }
+        public string CookieName { get; set; }
 
         protected AsPdfResultBase()
         {
             this.WkhtmltopdfPath = string.Empty;
+            this.CookieName = ".ASPXAUTH";
         }
 
         protected abstract string GetUrl(ControllerContext context);
@@ -33,7 +35,7 @@ namespace Rotativa
             if (authenticationCookie != null)
             {
                 var authCookieValue = authenticationCookie.Value;
-                switches += " --cookie .ASPXAUTH " + authCookieValue;
+                switches += " --cookie " + CookieName + " " + authCookieValue;
             }
 
             var url = GetUrl(context);
@@ -53,9 +55,9 @@ namespace Rotativa
             if (this.WkhtmltopdfPath == "") this.WkhtmltopdfPath = HttpContext.Current.Server.MapPath("~/Rotativa");
             var fileContent = Convert(this.WkhtmltopdfPath, switches);
 
-            response.OutputStream.Write(fileContent, 0, fileContent.Length); 
+            response.OutputStream.Write(fileContent, 0, fileContent.Length);
         }
-        
+
         private HttpResponseBase PrepareResponse(HttpResponseBase response)
         {
             response.ContentType = ContentType;
@@ -72,7 +74,7 @@ namespace Rotativa
         private static byte[] Convert(string wkhtmltopdfPath, string switches)
         {
             // adding the switch to ouput on stdout
-            switches += " -"; 
+            switches += " -";
             var proc = new Process()
             {
                 StartInfo = new ProcessStartInfo()
