@@ -53,7 +53,7 @@ namespace Rotativa
             var switches = GetWkParams(context);
 
             if (this.WkhtmltopdfPath == "") this.WkhtmltopdfPath = HttpContext.Current.Server.MapPath("~/Rotativa");
-            var fileContent = Convert(this.WkhtmltopdfPath, switches);
+            var fileContent = WkhtmltopdfDriver.Convert(this.WkhtmltopdfPath, switches);
 
             response.OutputStream.Write(fileContent, 0, fileContent.Length);
         }
@@ -69,32 +69,6 @@ namespace Rotativa
             }
             response.AddHeader("Content-Type", ContentType);
             return response;
-        }
-
-        private static byte[] Convert(string wkhtmltopdfPath, string switches)
-        {
-            // adding the switch to ouput on stdout
-            switches += " -";
-            var proc = new Process()
-            {
-                StartInfo = new ProcessStartInfo()
-                {
-                    FileName = Path.Combine(wkhtmltopdfPath, "wkhtmltopdf.exe"),
-                    Arguments = switches,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    RedirectStandardInput = true,
-                    WorkingDirectory = wkhtmltopdfPath,
-                    CreateNoWindow = true
-                }
-            };
-            proc.Start();
-            string output = proc.StandardOutput.ReadToEnd();
-            string error = proc.StandardError.ReadToEnd();
-            proc.WaitForExit();
-            byte[] buffer = proc.StandardOutput.CurrentEncoding.GetBytes(output);
-            return buffer;
         }
     }
 }
