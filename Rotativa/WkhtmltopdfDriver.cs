@@ -12,7 +12,7 @@ namespace Rotativa
         /// <param name="wkhtmltopdfPath">Path to wkthmltopdf.</param>
         /// <param name="html">String containing HTML code that should be converted to PDF.</param>
         /// <returns>PDF as byte array.</returns>
-        public byte[] ConvertHtml(string wkhtmltopdfPath, string html)
+        public static byte[] ConvertHtml(string wkhtmltopdfPath, string html)
         {
             return Convert(wkhtmltopdfPath, null, html);
         }
