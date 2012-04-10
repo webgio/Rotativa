@@ -29,6 +29,26 @@ namespace Rotativa.Demo.Controllers
             return new ActionAsPdf("Index", new { name = "Giorgio" }) { FileName = "Test.pdf" };
         }
 
+        public ActionResult TestUrl()
+        {
+            // Now I realize that this isn't very expressive example of why this can be useful.
+            // However imagine that you have your own UrlHelper extensions like UrlHelper.User(...)
+            // where you create right URL according to passed conditions, prepare some complex model, etc.
+
+            var urlHelper = new UrlHelper(Request.RequestContext);
+            string url = urlHelper.Action("Index", new { name = "Giorgio II." });
+
+            return new UrlAsPdf(url) { FileName = "TestUrl.pdf" };
+        }
+
+        public ActionResult TestExternalUrl()
+        {
+            // In some cases you might want to pull completely different URL that is not related to your application.
+            // You can do that by specifying full URL.
+
+            return new UrlAsPdf("http://www.github.com") { FileName = "TestExternalUrl.pdf" };
+        }
+
         public ActionResult ErrorTest()
         {
             return new ActionAsPdf("SomethingBad") { FileName = "Test.pdf" };

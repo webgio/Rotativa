@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Web.Security;
 
 namespace Rotativa
 {
@@ -44,7 +40,7 @@ namespace Rotativa
             else
                 actionUrl = urlHelper.Action(this.action);
 
-            string url = String.Format("http://{0}{1}", context.HttpContext.Request.Url.Authority, actionUrl);
+            string url = String.Format("{0}://{1}{2}", context.HttpContext.Request.Url.Scheme, context.HttpContext.Request.Url.Authority, actionUrl);
             return url;
         }
     }
