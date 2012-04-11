@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Net.Mime;
-using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -58,16 +54,26 @@ namespace Rotativa
             response.OutputStream.Write(fileContent, 0, fileContent.Length);
         }
 
-        private HttpResponseBase PrepareResponse(HttpResponseBase response)
+        private static string SanitizeFileName(string name)
+        {
+            string invalidChars = Regex.Escape(new string(Path.GetInvalidPathChars()) + new string(Path.GetInvalidFileNameChars()));
+            string invalidCharsPattern = string.Format(@"[{0}]+", invalidChars);
+
+            string result = Regex.Replace(name, invalidCharsPattern, "_");
+            return result;
+        }
+
+        protected HttpResponseBase PrepareResponse(HttpResponseBase response)
         {
             response.ContentType = ContentType;
 
-            if (!String.IsNullOrEmpty(this.FileName))
+            if (!String.IsNullOrEmpty(FileName))
             {
-                // TODO: strip non US_ANSI chars from the filename
-                response.AddHeader("Content-Disposition", "attachment; filename=" + this.FileName);
+                response.AddHeader("Content-Disposition", "attachment; filename=" + SanitizeFileName(FileName));
             }
+
             response.AddHeader("Content-Type", ContentType);
+
             return response;
         }
     }

@@ -6,26 +6,30 @@ using System.Web.Mvc;
 
 namespace Rotativa
 {
-    public class ViewAsPdf : ActionResult
+    public class ViewAsPdf : AsPdfResultBase
     {
-        private const string ContentType = "application/pdf";
-
-        public string FileName { get; set; }
-        public string WkhtmltopdfPath { get; set; }
-
-        private readonly Controller _controller;
         private readonly string _viewName;
         private readonly string _masterName;
         private readonly object _model;
 
-        public ViewAsPdf(Controller controller, string viewName, string masterName, object model)
+        public ViewAsPdf(string viewName, object model)
         {
             WkhtmltopdfPath = string.Empty;
+            _masterName = null;
 
-            _controller = controller;
             _viewName = viewName;
-            _masterName = masterName;
             _model = model;
+        }
+
+        public ViewAsPdf(string viewName, string masterName, object model)
+            : this(viewName, model)
+        {
+            _masterName = masterName;
+        }
+
+        protected override string GetUrl(ControllerContext context)
+        {
+            return string.Empty;
         }
 
         public override void ExecuteResult(ControllerContext context)
@@ -38,12 +42,12 @@ namespace Rotativa
             if (WkhtmltopdfPath == string.Empty)
                 WkhtmltopdfPath = HttpContext.Current.Server.MapPath("~/Rotativa");
 
-            _controller.ViewData.Model = _model;
+            context.Controller.ViewData.Model = _model;
 
             using (var sw = new StringWriter())
             {
-                ViewEngineResult viewResult = ViewEngines.Engines.FindView(_controller.ControllerContext, _viewName, _masterName);
-                ViewContext viewContext = new ViewContext(_controller.ControllerContext, viewResult.View, _controller.ViewData, _controller.TempData, sw);
+                ViewEngineResult viewResult = ViewEngines.Engines.FindView(context, _viewName, _masterName);
+                ViewContext viewContext = new ViewContext(context, viewResult.View, context.Controller.ViewData, context.Controller.TempData, sw);
                 viewResult.View.Render(viewContext, sw);
 
                 StringBuilder html = sw.GetStringBuilder();
@@ -56,21 +60,6 @@ namespace Rotativa
                 var fileContent = WkhtmltopdfDriver.ConvertHtml(WkhtmltopdfPath, html.ToString());
                 response.OutputStream.Write(fileContent, 0, fileContent.Length);
             }
-        }
-
-        private HttpResponseBase PrepareResponse(HttpResponseBase response)
-        {
-            response.ContentType = ContentType;
-
-            if (!String.IsNullOrEmpty(FileName))
-            {
-                // TODO: strip non US_ANSI chars from the filename
-                response.AddHeader("Content-Disposition", "attachment; filename=" + FileName);
-            }
-
-            response.AddHeader("Content-Type", ContentType);
-
-            return response;
         }
     }
 }

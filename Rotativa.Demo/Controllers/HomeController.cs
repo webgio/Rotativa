@@ -53,7 +53,7 @@ namespace Rotativa.Demo.Controllers
             // Probably the biggest advantage of this approach is that you have Session object available.
 
             ViewBag.Message = string.Format("Hello {0} to ASP.NET MVC!", "Giorgio III.");
-            return new ViewAsPdf(this, "~/Views/Home/Index.cshtml", "~/Views/Shared/_Layout.cshtml", null) { FileName = "TestView.pdf" };
+            return new ViewAsPdf("~/Views/Home/Index.cshtml", null) { FileName = "TestView.pdf" };
         }
 
         public ActionResult ErrorTest()
