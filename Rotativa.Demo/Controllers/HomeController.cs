@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using Rotativa.Options;
 
 namespace Rotativa.Demo.Controllers
 {
@@ -41,7 +42,11 @@ namespace Rotativa.Demo.Controllers
             // In some cases you might want to pull completely different URL that is not related to your application.
             // You can do that by specifying full URL.
 
-            return new UrlAsPdf("http://www.github.com") { FileName = "TestExternalUrl.pdf" };
+            return new UrlAsPdf("http://www.github.com")
+                       {
+                           FileName = "TestExternalUrl.pdf",
+                           PageMargins = new Margins(0, 0, 0, 0)
+                       };
         }
 
         public ActionResult TestView()
@@ -53,7 +58,12 @@ namespace Rotativa.Demo.Controllers
             // Probably the biggest advantage of this approach is that you have Session object available.
 
             ViewBag.Message = string.Format("Hello {0} to ASP.NET MVC!", "Giorgio III.");
-            return new ViewAsPdf("~/Views/Home/Index.cshtml", null) { FileName = "TestView.pdf" };
+            return new ViewAsPdf("~/Views/Home/Index.cshtml", null)
+                       {
+                           FileName = "TestView.pdf",
+                           PageOrientation = Orientation.Landscape,
+                           PageMargins = { Left = 0, Right = 0 }
+                       };
         }
 
         public ActionResult ErrorTest()

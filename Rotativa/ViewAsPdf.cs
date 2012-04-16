@@ -57,7 +57,7 @@ namespace Rotativa
                 html.Replace(" href=\"/", string.Format(" href=\"{0}/", baseUrl));
                 html.Replace(" src=\"/", string.Format(" src=\"{0}/", baseUrl));
 
-                var fileContent = WkhtmltopdfDriver.ConvertHtml(WkhtmltopdfPath, html.ToString());
+                var fileContent = WkhtmltopdfDriver.ConvertHtml(WkhtmltopdfPath, GetConvertOptions(), html.ToString());
                 response.OutputStream.Write(fileContent, 0, fileContent.Length);
             }
         }

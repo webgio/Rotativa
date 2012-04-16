@@ -10,18 +10,19 @@ namespace Rotativa
         /// Converts given HTML string to PDF.
         /// </summary>
         /// <param name="wkhtmltopdfPath">Path to wkthmltopdf.</param>
+        /// <param name="switches">Switches that will be passed to wkhtmltopdf binary.</param>
         /// <param name="html">String containing HTML code that should be converted to PDF.</param>
         /// <returns>PDF as byte array.</returns>
-        public static byte[] ConvertHtml(string wkhtmltopdfPath, string html)
+        public static byte[] ConvertHtml(string wkhtmltopdfPath, string switches, string html)
         {
-            return Convert(wkhtmltopdfPath, null, html);
+            return Convert(wkhtmltopdfPath, switches, html);
         }
 
         /// <summary>
         /// Converts given URL to PDF.
         /// </summary>
         /// <param name="wkhtmltopdfPath">Path to wkthmltopdf.</param>
-        /// <param name="switches">Switches that will be passed to wkhtmltopdf with URL that should be converted to PDF.</param>
+        /// <param name="switches">Switches that will be passed to wkhtmltopdf binary.</param>
         /// <returns>PDF as byte array.</returns>
         public static byte[] Convert(string wkhtmltopdfPath, string switches)
         {
@@ -32,9 +33,8 @@ namespace Rotativa
         /// Converts given URL or HTML string to PDF.
         /// </summary>
         /// <param name="wkhtmltopdfPath">Path to wkthmltopdf.</param>
-        /// <param name="switches">Switches that will be passed to wkhtmltopdf with URL that should be converted to PDF.</param>
-        /// <param name="html">String containing HTML code that should be converted to PDF.
-        /// If this variable is set then content of switches variable is ignored.</param>
+        /// <param name="switches">Switches that will be passed to wkhtmltopdf binary.</param>
+        /// <param name="html">String containing HTML code that should be converted to PDF.</param>
         /// <returns>PDF as byte array.</returns>
         private static byte[] Convert(string wkhtmltopdfPath, string switches, string html)
         {
@@ -42,7 +42,11 @@ namespace Rotativa
             //     "-q"  - silent output, only errors - no progress messages
             //     " -"  - switch output to stdout
             //     "- -" - switch input to stdin and output to stdout
-            switches = string.IsNullOrEmpty(html) ? "-q " + switches + " -" : "-q - -";
+            switches = "-q " + switches + " -";
+
+            // generate PDF from given HTML string, not from URL
+            if (!string.IsNullOrEmpty(html))
+                switches += " -";
 
             var proc = new Process
                            {
