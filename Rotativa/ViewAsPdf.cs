@@ -8,23 +8,55 @@ namespace Rotativa
 {
     public class ViewAsPdf : AsPdfResultBase
     {
-        private readonly string _viewName;
-        private readonly string _masterName;
-        private readonly object _model;
+        private string _viewName;
 
-        public ViewAsPdf(string viewName, object model)
+        public string ViewName
+        {
+            get { return _viewName ?? string.Empty; }
+            set { _viewName = value; }
+        }
+
+        private string _masterName;
+
+        public string MasterName
+        {
+            get { return _masterName ?? string.Empty; }
+            set { _masterName = value; }
+        }
+
+        public object Model { get; set; }
+
+        public ViewAsPdf()
         {
             WkhtmltopdfPath = string.Empty;
-            _masterName = null;
+            MasterName = string.Empty;
+            ViewName = string.Empty;
+            Model = null;
+        }
 
-            _viewName = viewName;
-            _model = model;
+        public ViewAsPdf(string viewName)
+            : this()
+        {
+            ViewName = viewName;
+        }
+
+        public ViewAsPdf(object model)
+            : this()
+        {
+            Model = model;
+        }
+
+        public ViewAsPdf(string viewName, object model)
+            : this()
+        {
+            ViewName = viewName;
+            Model = model;
         }
 
         public ViewAsPdf(string viewName, string masterName, object model)
             : this(viewName, model)
         {
-            _masterName = masterName;
+            MasterName = masterName;
         }
 
         protected override string GetUrl(ControllerContext context)
@@ -42,12 +74,31 @@ namespace Rotativa
             if (WkhtmltopdfPath == string.Empty)
                 WkhtmltopdfPath = HttpContext.Current.Server.MapPath("~/Rotativa");
 
-            context.Controller.ViewData.Model = _model;
+            context.Controller.ViewData.Model = Model;
+
+            // use action name if the view name was not provided
+            if (string.IsNullOrEmpty(ViewName))
+                ViewName = context.RouteData.GetRequiredString("action");
 
             using (var sw = new StringWriter())
             {
-                ViewEngineResult viewResult = ViewEngines.Engines.FindView(context, _viewName, _masterName);
-                ViewContext viewContext = new ViewContext(context, viewResult.View, context.Controller.ViewData, context.Controller.TempData, sw);
+                ViewEngineResult viewResult = ViewEngines.Engines.FindView(context, ViewName, MasterName);
+
+                // view not found, throw an exception with searched locations
+                if (viewResult.View == null)
+                {
+                    StringBuilder locations = new StringBuilder();
+                    locations.AppendLine();
+
+                    foreach (string location in viewResult.SearchedLocations)
+                    {
+                        locations.AppendLine(location);
+                    }
+
+                    throw new InvalidOperationException(string.Format("The view '{0}' or its master was not found, searched locations: {1}", ViewName, locations));
+                }
+
+                var viewContext = new ViewContext(context, viewResult.View, context.Controller.ViewData, context.Controller.TempData, sw);
                 viewResult.View.Render(viewContext, sw);
 
                 StringBuilder html = sw.GetStringBuilder();
