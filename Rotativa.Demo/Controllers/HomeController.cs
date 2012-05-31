@@ -61,6 +61,7 @@ namespace Rotativa.Demo.Controllers
             return new ViewAsPdf("Index")
                        {
                            FileName = "TestView.pdf",
+                           PageSize = Size.A3,
                            PageOrientation = Orientation.Landscape,
                            PageMargins = { Left = 0, Right = 0 }
                        };
