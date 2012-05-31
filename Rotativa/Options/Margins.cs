@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -58,7 +59,7 @@ namespace Rotativa.Options
 
                 object value = fi.GetValue(this);
                 if (value != null)
-                    result.AppendFormat(" {0} {1}", of.Name, value);
+                    result.AppendFormat(CultureInfo.InvariantCulture, " {0} {1}", of.Name, value);
             }
 
             return result.ToString().Trim();

@@ -54,14 +54,16 @@ namespace Rotativa
         public Size? PageSize;
 
         /// <summary>
-        /// Sets the page width in mm. Has priority over <see cref="PageSize"/> but <see cref="PageHeight"/> has to be also specified.
+        /// Sets the page width in mm.
         /// </summary>
+        /// <remarks>Has priority over <see cref="PageSize"/> but <see cref="PageHeight"/> has to be also specified.</remarks>
         [OptionFlag("--page-width")]
         public double? PageWidth;
 
         /// <summary>
-        /// Sets the page height in mm. Has priority over <see cref="PageSize"/> but <see cref="PageWidth"/> has to be also specified.
+        /// Sets the page height in mm.
         /// </summary>
+        /// <remarks>Has priority over <see cref="PageSize"/> but <see cref="PageWidth"/> has to be also specified.</remarks>
         [OptionFlag("--page-height")]
         public double? PageHeight;
 
@@ -158,9 +160,6 @@ namespace Rotativa
         /// <returns>Command line parameter that can be directly passed to wkhtmltopdf binary.</returns>
         protected string GetConvertOptions()
         {
-            // use en-US locale when converting floating-point numbers to string
-            var ci = new CultureInfo("en-US", false);
-
             var result = new StringBuilder();
 
             if (PageMargins != null)
@@ -188,11 +187,11 @@ namespace Rotativa
                 else if (fi.FieldType == typeof(bool))
                 {
                     if ((bool)value)
-                        result.AppendFormat(ci, " {0}", of.Name);
+                        result.AppendFormat(CultureInfo.InvariantCulture, " {0}", of.Name);
                 }
                 else
                 {
-                    result.AppendFormat(ci, " {0} {1}", of.Name, value);
+                    result.AppendFormat(CultureInfo.InvariantCulture, " {0} {1}", of.Name, value);
                 }
             }
 
