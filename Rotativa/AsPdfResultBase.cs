@@ -248,7 +248,7 @@ namespace Rotativa
             response.ContentType = ContentType;
 
             if (!String.IsNullOrEmpty(FileName))
-                response.AddHeader("Content-Disposition", "attachment; filename=" + SanitizeFileName(FileName));
+                response.AddHeader("Content-Disposition", string.Format("attachment; filename=\"{0}\"", SanitizeFileName(FileName)));
 
             response.AddHeader("Content-Type", ContentType);
 
