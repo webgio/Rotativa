@@ -45,105 +45,105 @@ namespace Rotativa
         /// <summary>
         /// Sets the page margins.
         /// </summary>
-        public Margins PageMargins;
+        public Margins PageMargins { get; set; }
 
         /// <summary>
         /// Sets the page size.
         /// </summary>
         [OptionFlag("-s")]
-        public Size? PageSize;
+        public Size? PageSize { get; set; }
 
         /// <summary>
         /// Sets the page width in mm.
         /// </summary>
         /// <remarks>Has priority over <see cref="PageSize"/> but <see cref="PageHeight"/> has to be also specified.</remarks>
         [OptionFlag("--page-width")]
-        public double? PageWidth;
+        public double? PageWidth { get; set; }
 
         /// <summary>
         /// Sets the page height in mm.
         /// </summary>
         /// <remarks>Has priority over <see cref="PageSize"/> but <see cref="PageWidth"/> has to be also specified.</remarks>
         [OptionFlag("--page-height")]
-        public double? PageHeight;
+        public double? PageHeight { get; set; }
 
         /// <summary>
         /// Sets the page orientation.
         /// </summary>
         [OptionFlag("-O")]
-        public Orientation? PageOrientation;
+        public Orientation? PageOrientation { get; set; }
 
         /// <summary>
         /// Sets cookies.
         /// </summary>
         [OptionFlag("--cookie")]
-        public Dictionary<string, string> Cookies;
+        public Dictionary<string, string> Cookies { get; set; }
 
         /// <summary>
         /// Sets post values.
         /// </summary>
         [OptionFlag("--post")]
-        public Dictionary<string, string> Post;
+        public Dictionary<string, string> Post { get; set; }
 
         /// <summary>
         /// Indicates whether the page can run JavaScript.
         /// </summary>
         [OptionFlag("-n")]
-        public bool IsJavaScriptDisabled;
+        public bool IsJavaScriptDisabled { get; set; }
 
         /// <summary>
         /// Indicates whether the PDF should be generated in lower quality.
         /// </summary>
         [OptionFlag("-l")]
-        public bool IsLowQuality;
+        public bool IsLowQuality { get; set; }
 
         /// <summary>
         /// Indicates whether the page background should be disabled.
         /// </summary>
         [OptionFlag("--no-background")]
-        public bool IsBackgroundDisabled;
+        public bool IsBackgroundDisabled { get; set; }
 
         /// <summary>
         /// Minimum font size.
         /// </summary>
         [OptionFlag("--minimum-font-size")]
-        public int? MinimumFontSize;
+        public int? MinimumFontSize { get; set; }
 
         /// <summary>
         /// Number of copies to print into the PDF file.
         /// </summary>
         [OptionFlag("--copies")]
-        public int? Copies;
+        public int? Copies { get; set; }
 
         /// <summary>
         /// Indicates whether the PDF should be generated in grayscale.
         /// </summary>
         [OptionFlag("-g")]
-        public bool IsGrayScale;
+        public bool IsGrayScale { get; set; }
 
         /// <summary>
         /// Sets proxy server.
         /// </summary>
         [OptionFlag("-p")]
-        public string Proxy;
+        public string Proxy { get; set; }
 
         /// <summary>
         /// HTTP Authentication username.
         /// </summary>
         [OptionFlag("--username")]
-        public string UserName;
+        public string UserName { get; set; }
 
         /// <summary>
         /// HTTP Authentication password.
         /// </summary>
         [OptionFlag("--password")]
-        public string Password;
+        public string Password { get; set; }
 
         /// <summary>
         /// Use this if you need another switches that are not currently supported by Rotativa.
         /// </summary>
         [OptionFlag("")]
-        public string CustomSwitches;
+        public string CustomSwitches { get; set; }
 
         protected AsPdfResultBase()
         {

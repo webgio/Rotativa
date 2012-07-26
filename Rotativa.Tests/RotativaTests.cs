@@ -90,5 +90,38 @@ namespace Rotativa.Tests
                 pdfTester.PdfContains("admin").Should().Be.True();
             }
         }
+        
+        [Test]
+        public void Can_print_the_pdf_from_a_view()
+        {
+
+            var testLink = selenium.FindElement(By.LinkText("Test View"));
+            var pdfHref = testLink.GetAttribute("href");
+            using (var wc = new WebClient())
+            {
+                var pdfResult = wc.DownloadData(new Uri(pdfHref));
+                var pdfTester = new PdfTester();
+                pdfTester.LoadPdf(pdfResult);
+                pdfTester.PdfIsValid.Should().Be.True();
+                pdfTester.PdfContains("My MVC Application").Should().Be.True();
+            }
+        }
+
+        [Test]
+        public void Can_print_the_pdf_from_a_view_with_a_model()
+        {
+
+            var testLink = selenium.FindElement(By.LinkText("Test ViewAsPdf with a model"));
+            var pdfHref = testLink.GetAttribute("href");
+            var title = "This is my test!";
+            using (var wc = new WebClient())
+            {
+                var pdfResult = wc.DownloadData(new Uri(pdfHref + "/" + title));
+                var pdfTester = new PdfTester();
+                pdfTester.LoadPdf(pdfResult);
+                pdfTester.PdfIsValid.Should().Be.True();
+                pdfTester.PdfContains(title).Should().Be.True();
+            }
+        }
     }
 }

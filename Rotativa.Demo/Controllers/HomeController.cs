@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using Rotativa.Demo.Models;
 using Rotativa.Options;
 
 namespace Rotativa.Demo.Controllers
@@ -59,12 +60,18 @@ namespace Rotativa.Demo.Controllers
 
             ViewBag.Message = string.Format("Hello {0} to ASP.NET MVC!", "Giorgio III.");
             return new ViewAsPdf("Index")
-                       {
-                           FileName = "TestView.pdf",
-                           PageSize = Size.A3,
-                           PageOrientation = Orientation.Landscape,
-                           PageMargins = { Left = 0, Right = 0 }
-                       };
+            {
+                FileName = "TestView.pdf",
+                PageSize = Size.A3,
+                PageOrientation = Orientation.Landscape,
+                PageMargins = { Left = 0, Right = 0 }
+            };
+        }
+
+        public ActionResult TestViewWithModel(string id)
+        {
+            var model = new TestViewModel {DocTitle = id, DocContent = "This is a test"};
+            return new ViewAsPdf(model);
         }
 
         public ActionResult ErrorTest()
