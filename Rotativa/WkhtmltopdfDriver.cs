@@ -1,60 +1,56 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Rotativa
 {
     public class WkhtmltopdfDriver
     {
-        private string cookieName;
-        private string cookieValue;
-
-        public byte[] ConvertHtml(string wkhtmltopdfPath, string html)
+        /// <summary>
+        /// Converts given HTML string to PDF.
+        /// </summary>
+        /// <param name="wkhtmltopdfPath">Path to wkthmltopdf.</param>
+        /// <param name="switches">Switches that will be passed to wkhtmltopdf binary.</param>
+        /// <param name="html">String containing HTML code that should be converted to PDF.</param>
+        /// <returns>PDF as byte array.</returns>
+        public static byte[] ConvertHtml(string wkhtmltopdfPath, string switches, string html)
         {
-            string switches = " ";
-            switches += "- -";
-
-            var proc = new Process()
-            {
-                StartInfo = new ProcessStartInfo()
-                {
-                    FileName = Path.Combine(wkhtmltopdfPath, "wkhtmltopdf.exe"),
-                    Arguments = switches,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    RedirectStandardInput = true,
-                    WorkingDirectory = wkhtmltopdfPath,
-                    CreateNoWindow = true
-                }
-            };
-            proc.Start();
-            using (var stream = proc.StandardInput)
-            {
-                stream.WriteLine(html);
-            }
-            string output = proc.StandardOutput.ReadToEnd();
-            string error = proc.StandardError.ReadToEnd();
-            if (String.IsNullOrEmpty(output))
-            {
-                throw new Exception(error);
-            }
-            proc.WaitForExit();
-            byte[] buffer = proc.StandardOutput.CurrentEncoding.GetBytes(output);
-            return buffer;
+            return Convert(wkhtmltopdfPath, switches, html);
         }
 
+        /// <summary>
+        /// Converts given URL to PDF.
+        /// </summary>
+        /// <param name="wkhtmltopdfPath">Path to wkthmltopdf.</param>
+        /// <param name="switches">Switches that will be passed to wkhtmltopdf binary.</param>
+        /// <returns>PDF as byte array.</returns>
         public static byte[] Convert(string wkhtmltopdfPath, string switches)
         {
-            // adding the switch to ouput on stdout
-            switches += " -";
-            var proc = new Process()
+            return Convert(wkhtmltopdfPath, switches, null);
+        }
+
+        /// <summary>
+        /// Converts given URL or HTML string to PDF.
+        /// </summary>
+        /// <param name="wkhtmltopdfPath">Path to wkthmltopdf.</param>
+        /// <param name="switches">Switches that will be passed to wkhtmltopdf binary.</param>
+        /// <param name="html">String containing HTML code that should be converted to PDF.</param>
+        /// <returns>PDF as byte array.</returns>
+        private static byte[] Convert(string wkhtmltopdfPath, string switches, string html)
+        {
+            // switches:
+            //     "-q"  - silent output, only errors - no progress messages
+            //     " -"  - switch output to stdout
+            //     "- -" - switch input to stdin and output to stdout
+            switches = "-q " + switches + " -";
+
+            // generate PDF from given HTML string, not from URL
+            if (!string.IsNullOrEmpty(html))
+                switches += " -";
+
+            var proc = new Process
                            {
-                               StartInfo = new ProcessStartInfo()
+                               StartInfo = new ProcessStartInfo
                                                {
                                                    FileName = Path.Combine(wkhtmltopdfPath, "wkhtmltopdf.exe"),
                                                    Arguments = switches,
@@ -67,15 +63,38 @@ namespace Rotativa
                                                }
                            };
             proc.Start();
-            string output = proc.StandardOutput.ReadToEnd();
+
+            // generate PDF from given HTML string, not from URL
+            if (!string.IsNullOrEmpty(html))
+            {
+                using (var sIn = proc.StandardInput)
+                {
+                    sIn.WriteLine(html);
+                }
+            }
+
+            var ms = new MemoryStream();
+            using (var sOut = proc.StandardOutput.BaseStream)
+            {
+                byte[] buffer = new byte[4096];
+                int read;
+
+                while ((read = sOut.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    ms.Write(buffer, 0, read);
+                }
+            }
+
             string error = proc.StandardError.ReadToEnd();
-            if (String.IsNullOrEmpty(output))
+
+            if (ms.Length == 0)
             {
                 throw new Exception(error);
             }
+
             proc.WaitForExit();
-            byte[] buffer = proc.StandardOutput.CurrentEncoding.GetBytes(output);
-            return buffer;
+
+            return ms.ToArray();
         }
     }
 }

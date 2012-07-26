@@ -14,6 +14,6 @@ public ActionResult Index(string name)
     return View();
 }
 
-Also available a RouteAsPdf ActionResult.
+Also available a RouteAsPdf, UrlAsPdf and ViewAsPdf ActionResult.
 
 It generates Pdf also from authorized actions (web forms authentication).

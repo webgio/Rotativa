@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Contexts;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using Rotativa.Options;
 
 namespace Rotativa.Demo.Controllers
 {
@@ -27,6 +23,48 @@ namespace Rotativa.Demo.Controllers
         public ActionResult Test()
         {
             return new ActionAsPdf("Index", new { name = "Giorgio" }) { FileName = "Test.pdf" };
+        }
+
+        public ActionResult TestUrl()
+        {
+            // Now I realize that this isn't very expressive example of why this can be useful.
+            // However imagine that you have your own UrlHelper extensions like UrlHelper.User(...)
+            // where you create correct URL according to passed conditions, prepare some complex model, etc.
+
+            var urlHelper = new UrlHelper(Request.RequestContext);
+            string url = urlHelper.Action("Index", new { name = "Giorgio II." });
+
+            return new UrlAsPdf(url) { FileName = "TestUrl.pdf" };
+        }
+
+        public ActionResult TestExternalUrl()
+        {
+            // In some cases you might want to pull completely different URL that is not related to your application.
+            // You can do that by specifying full URL.
+
+            return new UrlAsPdf("http://www.github.com")
+                       {
+                           FileName = "TestExternalUrl.pdf",
+                           PageMargins = new Margins(0, 0, 0, 0)
+                       };
+        }
+
+        public ActionResult TestView()
+        {
+            // The more usual way of using this would be to have a Model object that you would pass into ViewAsPdf
+            // and work with that Model inside your View.
+            // Good example could be an Order Summary page on some fictional E-shop.
+
+            // Probably the biggest advantage of this approach is that you have Session object available.
+
+            ViewBag.Message = string.Format("Hello {0} to ASP.NET MVC!", "Giorgio III.");
+            return new ViewAsPdf("Index")
+                       {
+                           FileName = "TestView.pdf",
+                           PageSize = Size.A3,
+                           PageOrientation = Orientation.Landscape,
+                           PageMargins = { Left = 0, Right = 0 }
+                       };
         }
 
         public ActionResult ErrorTest()
