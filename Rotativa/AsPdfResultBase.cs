@@ -165,18 +165,18 @@ namespace Rotativa
             if (PageMargins != null)
                 result.Append(PageMargins.ToString());
 
-            FieldInfo[] fields = GetType().GetFields();
+            var fields = GetType().GetProperties();
             foreach (var fi in fields)
             {
                 var of = fi.GetCustomAttributes(typeof(OptionFlag), true).FirstOrDefault() as OptionFlag;
                 if (of == null)
                     continue;
 
-                object value = fi.GetValue(this);
+                object value = fi.GetValue(this, null);
                 if (value == null)
                     continue;
 
-                if (fi.FieldType == typeof(Dictionary<string, string>))
+                if (fi.PropertyType == typeof(Dictionary<string, string>))
                 {
                     var dictionary = (Dictionary<string, string>)value;
                     foreach (var d in dictionary)
@@ -184,7 +184,7 @@ namespace Rotativa
                         result.AppendFormat(" {0} {1} {2}", of.Name, d.Key, d.Value);
                     }
                 }
-                else if (fi.FieldType == typeof(bool))
+                else if (fi.PropertyType == typeof(bool))
                 {
                     if ((bool)value)
                         result.AppendFormat(CultureInfo.InvariantCulture, " {0}", of.Name);
