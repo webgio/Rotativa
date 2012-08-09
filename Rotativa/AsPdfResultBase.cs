@@ -145,6 +145,8 @@ namespace Rotativa
         [OptionFlag("")]
         public string CustomSwitches { get; set; }
 
+        public string SaveOnServerPath { get; set; }
+
         protected AsPdfResultBase()
         {
             WkhtmltopdfPath = string.Empty;
@@ -217,6 +219,13 @@ namespace Rotativa
             return switches;
         }
 
+        protected virtual byte[] CallTheDriver(ControllerContext context)
+        {
+            var switches = GetWkParams(context);
+            var fileContent = WkhtmltopdfDriver.Convert(WkhtmltopdfPath, switches);
+            return fileContent;
+        }
+
         public override void ExecuteResult(ControllerContext context)
         {
             if (context == null)
@@ -229,7 +238,12 @@ namespace Rotativa
             if (WkhtmltopdfPath == string.Empty)
                 WkhtmltopdfPath = HttpContext.Current.Server.MapPath("~/Rotativa");
 
-            var fileContent = WkhtmltopdfDriver.Convert(WkhtmltopdfPath, switches);
+            var fileContent = CallTheDriver(context);
+
+            if (string.IsNullOrEmpty(SaveOnServerPath) == false)
+            {
+                File.WriteAllBytes(SaveOnServerPath, fileContent);
+            }
 
             response.OutputStream.Write(fileContent, 0, fileContent.Length);
         }

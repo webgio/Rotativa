@@ -64,16 +64,8 @@ namespace Rotativa
             return string.Empty;
         }
 
-        public override void ExecuteResult(ControllerContext context)
+        protected override byte[] CallTheDriver(ControllerContext context)
         {
-            if (context == null)
-                throw new ArgumentNullException("context");
-
-            var response = PrepareResponse(context.HttpContext.Response);
-
-            if (WkhtmltopdfPath == string.Empty)
-                WkhtmltopdfPath = HttpContext.Current.Server.MapPath("~/Rotativa");
-
             context.Controller.ViewData.Model = Model;
 
             // use action name if the view name was not provided
@@ -87,7 +79,7 @@ namespace Rotativa
                 // view not found, throw an exception with searched locations
                 if (viewResult.View == null)
                 {
-                    StringBuilder locations = new StringBuilder();
+                    var locations = new StringBuilder();
                     locations.AppendLine();
 
                     foreach (string location in viewResult.SearchedLocations)
@@ -109,7 +101,7 @@ namespace Rotativa
                 html.Replace(" src=\"/", string.Format(" src=\"{0}/", baseUrl));
 
                 var fileContent = WkhtmltopdfDriver.ConvertHtml(WkhtmltopdfPath, GetConvertOptions(), html.ToString());
-                response.OutputStream.Write(fileContent, 0, fileContent.Length);
+                return fileContent;
             }
         }
     }

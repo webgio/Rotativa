@@ -5,11 +5,12 @@
 <h2>@ViewBag.Message</h2>
 <p>
                 <ul>
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Home", "Index", new {name = "Giorgio"})</li>
                     <li>@Html.ActionLink("Test", "Test", "Home")</li>
                     <li>@Html.ActionLink("Test URL", "TestUrl", "Home")</li>
                     <li>@Html.ActionLink("Test External URL", "TestExternalUrl", "Home")</li>
                     <li>@Html.ActionLink("Test View", "TestView", "Home")</li>
+                    <li>@Html.ActionLink("Test Save on Server", "TestSaveOnServer", new { fileName = "test.pdf"})</li>
                     <li>@Html.ActionLink("Logged In Test", "AuthorizedTest", "Home")</li>
                     <li>@Html.ActionLink("Route Test", "RouteTest", "Home")</li>
                     <li>@Html.ActionLink("Test ViewAsPdf with a model", "TestViewWithModel")</li>

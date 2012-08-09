@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.IO;
+using System.Web.Mvc;
 using Rotativa.Demo.Models;
 using Rotativa.Options;
 
@@ -65,6 +67,25 @@ namespace Rotativa.Demo.Controllers
                 PageSize = Size.A3,
                 PageOrientation = Orientation.Landscape,
                 PageMargins = { Left = 0, Right = 0 }
+            };
+        }
+
+        public ActionResult TestSaveOnServer(string fileName)
+        {
+            // The more usual way of using this would be to have a Model object that you would pass into ViewAsPdf
+            // and work with that Model inside your View.
+            // Good example could be an Order Summary page on some fictional E-shop.
+
+            // Probably the biggest advantage of this approach is that you have Session object available.
+            var filePath = Path.Combine(Server.MapPath("/App_Data"), fileName);
+            ViewBag.Message = string.Format("Hello {0} to ASP.NET MVC!", "Giorgio III.");
+            return new ViewAsPdf("Index")
+            {
+                FileName = fileName,
+                PageSize = Size.A3,
+                PageOrientation = Orientation.Landscape,
+                PageMargins = { Left = 0, Right = 0 },
+                SaveOnServerPath = filePath
             };
         }
 
