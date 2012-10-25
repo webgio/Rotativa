@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -8,23 +9,8 @@ namespace Rotativa
 {
     public class ViewAsPdf : AsPdfResultBase
     {
-        private string _viewName;
-
-        public string ViewName
-        {
-            get { return _viewName ?? string.Empty; }
-            set { _viewName = value; }
-        }
-
         private string _masterName;
-
-        public string MasterName
-        {
-            get { return _masterName ?? string.Empty; }
-            set { _masterName = value; }
-        }
-
-        public object Model { get; set; }
+        private string _viewName;
 
         public ViewAsPdf()
         {
@@ -59,9 +45,18 @@ namespace Rotativa
             MasterName = masterName;
         }
 
-        protected override string GetUrl(ControllerContext context)
+        public string MasterName
         {
-            return string.Empty;
+            get { return _masterName ?? string.Empty; }
+            set { _masterName = value; }
+        }
+
+        public object Model { get; set; }
+
+        public string ViewName
+        {
+            get { return _viewName ?? string.Empty; }
+            set { _viewName = value; }
         }
 
         protected override byte[] CallTheDriver(ControllerContext context)
@@ -100,9 +95,14 @@ namespace Rotativa
                 html.Replace(" href=\"/", string.Format(" href=\"{0}/", baseUrl));
                 html.Replace(" src=\"/", string.Format(" src=\"{0}/", baseUrl));
 
-                var fileContent = WkhtmltopdfDriver.ConvertHtml(WkhtmltopdfPath, GetConvertOptions(), html.ToString());
+                var fileContent = WkhtmltopdfDriver.ConvertHtml(WkhtmltopdfPath, GetConvertOptions(), WebUtility.HtmlDecode(html.ToString()));
                 return fileContent;
             }
+        }
+
+        protected override string GetUrl(ControllerContext context)
+        {
+            return string.Empty;
         }
     }
 }
