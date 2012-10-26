@@ -1,11 +1,23 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 
 namespace Rotativa
 {
     public class WkhtmltopdfDriver
     {
+        /// <summary>
+        /// Converts given URL to PDF.
+        /// </summary>
+        /// <param name="wkhtmltopdfPath">Path to wkthmltopdf.</param>
+        /// <param name="switches">Switches that will be passed to wkhtmltopdf binary.</param>
+        /// <returns>PDF as byte array.</returns>
+        public static byte[] Convert(string wkhtmltopdfPath, string switches)
+        {
+            return Convert(wkhtmltopdfPath, switches, null);
+        }
+
         /// <summary>
         /// Converts given HTML string to PDF.
         /// </summary>
@@ -19,17 +31,6 @@ namespace Rotativa
         }
 
         /// <summary>
-        /// Converts given URL to PDF.
-        /// </summary>
-        /// <param name="wkhtmltopdfPath">Path to wkthmltopdf.</param>
-        /// <param name="switches">Switches that will be passed to wkhtmltopdf binary.</param>
-        /// <returns>PDF as byte array.</returns>
-        public static byte[] Convert(string wkhtmltopdfPath, string switches)
-        {
-            return Convert(wkhtmltopdfPath, switches, null);
-        }
-
-        /// <summary>
         /// Converts given URL or HTML string to PDF.
         /// </summary>
         /// <param name="wkhtmltopdfPath">Path to wkthmltopdf.</param>
@@ -38,6 +39,8 @@ namespace Rotativa
         /// <returns>PDF as byte array.</returns>
         private static byte[] Convert(string wkhtmltopdfPath, string switches, string html)
         {
+            html = SpecialCharsEncode(html);
+
             // switches:
             //     "-q"  - silent output, only errors - no progress messages
             //     " -"  - switch output to stdout
@@ -95,6 +98,28 @@ namespace Rotativa
             proc.WaitForExit();
 
             return ms.ToArray();
+        }
+
+        /// <summary>
+        /// Encode all special chars
+        /// </summary>
+        /// <param name="text">Html text</param>
+        /// <returns>Html with special chars encoded</returns>
+        private static string SpecialCharsEncode(string text)
+        {
+            var chars = text.ToCharArray();
+            var result = new StringBuilder(text.Length + (int)(text.Length * 0.1));
+
+            foreach (var c in chars)
+            {
+                var value = System.Convert.ToInt32(c);
+                if (value > 127)
+                    result.AppendFormat("&#{0};", value);
+                else
+                    result.Append(c);
+            }
+
+            return result.ToString();
         }
     }
 }
