@@ -1,22 +1,22 @@
 <?xml version="1.0"?>
-<package >
+<package>
   <metadata>
     <id>Rotativa</id>
-    <version>1.4.0</version>
+    <version>1.5.2</version>
     <title>Rotativa</title>
-    <authors>Giorgio Bozio</authors>
+    <authors>Giorgio Bozio, Emerson Soares</authors>
     <owners>Giorgio Bozio</owners>
     <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
-    <projectUrl>https://github.com/webgio/Rotativa</projectUrl>
+    <projectUrl>https://github.com/emersonsoares/Rotativa</projectUrl>
     <!--<iconUrl></iconUrl>-->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Extremely easy way to print Pdf in Aspnet Mvc</description>
-    <releaseNotes>Adding option to save to server</releaseNotes>
+    <description>Extremely easy way to print Pdf in Aspnet Mvc, now working with special characters pt-BR</description>
+    <releaseNotes>Fix pt-BR characters encoding errors</releaseNotes>
     <copyright>Copyright 2012</copyright>
     <tags>AspNetMvc Pdf</tags>
   </metadata>
-  <!--<files>
-    <file src="Browsers\*.*" target="App_Browsers" />
-    --><!--<file src="Rotativa\*.*" target="" />--><!--
-  </files>-->
+  <files>
+    <!--<file src="Browsers\*.*" target="App_Browsers" />-->
+    <file src="Rotativa\*.*" target="Rotativa" />
+  </files>
 </package>
