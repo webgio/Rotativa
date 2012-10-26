@@ -92,7 +92,7 @@ namespace Rotativa.Tests
                 pdfTester.PdfContains("admin").Should().Be.True();
             }
         }
-        
+
         [Test]
         public void Can_print_the_pdf_from_a_view()
         {
@@ -106,6 +106,22 @@ namespace Rotativa.Tests
                 pdfTester.LoadPdf(pdfResult);
                 pdfTester.PdfIsValid.Should().Be.True();
                 pdfTester.PdfContains("My MVC Application").Should().Be.True();
+            }
+        }
+
+        [Test]
+        public void Can_print_the_pdf_from_a_vie_with_non_ascii_chars()
+        {
+
+            var testLink = selenium.FindElement(By.LinkText("Test View"));
+            var pdfHref = testLink.GetAttribute("href");
+            using (var wc = new WebClient())
+            {
+                var pdfResult = wc.DownloadData(new Uri(pdfHref));
+                var pdfTester = new PdfTester();
+                pdfTester.LoadPdf(pdfResult);
+                pdfTester.PdfIsValid.Should().Be.True();
+                pdfTester.PdfContains("àéù").Should().Be.True();
             }
         }
 

@@ -61,6 +61,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="NuGet.exe" />
     <Content Include="Rotativa\libeay32.dll" />
     <Content Include="Rotativa\libgcc_s_dw2-1.dll" />
     <Content Include="Rotativa\mingwm10.dll" />

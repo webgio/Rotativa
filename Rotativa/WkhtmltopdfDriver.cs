@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 
 namespace Rotativa
 {
@@ -46,7 +47,10 @@ namespace Rotativa
 
             // generate PDF from given HTML string, not from URL
             if (!string.IsNullOrEmpty(html))
+            {
                 switches += " -";
+                html = SpecialCharsEncode(html);
+            }
 
             var proc = new Process
                            {
@@ -95,6 +99,28 @@ namespace Rotativa
             proc.WaitForExit();
 
             return ms.ToArray();
+        }
+
+        /// <summary>
+        /// Encode all special chars
+        /// </summary>
+        /// <param name="text">Html text</param>
+        /// <returns>Html with special chars encoded</returns>
+        private static string SpecialCharsEncode(string text)
+        {
+            var chars = text.ToCharArray();
+            var result = new StringBuilder(text.Length + (int)(text.Length * 0.1));
+
+            foreach (var c in chars)
+            {
+                var value = System.Convert.ToInt32(c);
+                if (value > 127)
+                    result.AppendFormat("&#{0};", value);
+                else
+                    result.Append(c);
+            }
+
+            return result.ToString();
         }
     }
 }

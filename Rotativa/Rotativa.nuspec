@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Rotativa</id>
-    <version>1.4.0</version>
+    <version>1.4.1</version>
     <title>Rotativa</title>
     <authors>Giorgio Bozio</authors>
     <owners>Giorgio Bozio</owners>
@@ -11,7 +11,7 @@
     <!--<iconUrl></iconUrl>-->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Extremely easy way to print Pdf in Aspnet Mvc</description>
-    <releaseNotes>Adding option to save to server</releaseNotes>
+    <releaseNotes>Fixed for non-ascii chars for ViewAsPdf</releaseNotes>
     <copyright>Copyright 2012</copyright>
     <tags>AspNetMvc Pdf</tags>
   </metadata>
