@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -95,7 +94,7 @@ namespace Rotativa
                 html.Replace(" href=\"/", string.Format(" href=\"{0}/", baseUrl));
                 html.Replace(" src=\"/", string.Format(" src=\"{0}/", baseUrl));
 
-                var fileContent = WkhtmltopdfDriver.ConvertHtml(WkhtmltopdfPath, GetConvertOptions(), WebUtility.HtmlDecode(html.ToString()));
+                var fileContent = WkhtmltopdfDriver.ConvertHtml(WkhtmltopdfPath, GetConvertOptions(), html.ToString());
                 return fileContent;
             }
         }
