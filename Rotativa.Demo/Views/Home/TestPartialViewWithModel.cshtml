@@ -1,0 +1,20 @@
+﻿@model Rotativa.Demo.Models.TestViewModel
+
+<h2>TestViewWithModel</h2>
+
+<fieldset>
+    <legend>TestViewModel</legend>
+
+    <div class="display-label">DocTitle</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DocTitle)
+    </div>
+
+    <div class="display-label">DocContent</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DocContent)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

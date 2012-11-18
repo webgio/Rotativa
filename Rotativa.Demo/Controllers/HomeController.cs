@@ -95,6 +95,12 @@ namespace Rotativa.Demo.Controllers
             return new ViewAsPdf(model);
         }
 
+        public ActionResult TestPartialViewWithModel(string id)
+        {
+            var model = new TestViewModel { DocTitle = id, DocContent = "This is a test" };
+            return new PartialViewAsPdf(model);
+        }
+
         public ActionResult ErrorTest()
         {
             return new ActionAsPdf("SomethingBad") { FileName = "Test.pdf" };
