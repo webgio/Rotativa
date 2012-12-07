@@ -108,7 +108,7 @@ namespace Rotativa.Tests
                 pdfTester.PdfContains("My MVC Application").Should().Be.True();
             }
         }
-
+        
         [Test]
         public void Can_print_the_pdf_from_a_vie_with_non_ascii_chars()
         {
@@ -131,14 +131,31 @@ namespace Rotativa.Tests
 
             var testLink = selenium.FindElement(By.LinkText("Test ViewAsPdf with a model"));
             var pdfHref = testLink.GetAttribute("href");
-            var title = "This is my test!";
+            var title = "This is a test";
             using (var wc = new WebClient())
             {
-                var pdfResult = wc.DownloadData(new Uri(pdfHref + "/" + title));
+                var pdfResult = wc.DownloadData(new Uri(pdfHref));
                 var pdfTester = new PdfTester();
                 pdfTester.LoadPdf(pdfResult);
                 pdfTester.PdfIsValid.Should().Be.True();
                 pdfTester.PdfContains(title).Should().Be.True();
+            }
+        }
+
+        [Test]
+        public void Can_print_the_pdf_from_a_partial_view_with_a_model()
+        {
+
+            var testLink = selenium.FindElement(By.LinkText("Test PartialViewAsPdf with a model"));
+            var pdfHref = testLink.GetAttribute("href");
+            var content = "This is a test with a partial view";
+            using (var wc = new WebClient())
+            {
+                var pdfResult = wc.DownloadData(new Uri(pdfHref));
+                var pdfTester = new PdfTester();
+                pdfTester.LoadPdf(pdfResult);
+                pdfTester.PdfIsValid.Should().Be.True();
+                pdfTester.PdfContains(content).Should().Be.True();
             }
         }
     }

@@ -91,13 +91,13 @@ namespace Rotativa.Demo.Controllers
 
         public ActionResult TestViewWithModel(string id)
         {
-            var model = new TestViewModel {DocTitle = id, DocContent = "This is a test"};
+            var model = new TestViewModel { DocTitle = id, DocContent = "This is a test" };
             return new ViewAsPdf(model);
         }
 
         public ActionResult TestPartialViewWithModel(string id)
         {
-            var model = new TestViewModel { DocTitle = id, DocContent = "This is a test" };
+            var model = new TestViewModel { DocTitle = id, DocContent = "This is a test with a partial view" };
             return new PartialViewAsPdf(model);
         }
 

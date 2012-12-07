@@ -63,6 +63,11 @@ namespace Rotativa
         {
             return string.Empty;
         }
+        
+        protected virtual ViewEngineResult GetView(ControllerContext context, string viewName, string masterName)
+        {
+            return ViewEngines.Engines.FindView(context, ViewName, MasterName);
+        }
 
         protected override byte[] CallTheDriver(ControllerContext context)
         {
@@ -74,7 +79,7 @@ namespace Rotativa
 
             using (var sw = new StringWriter())
             {
-                ViewEngineResult viewResult = ViewEngines.Engines.FindView(context, ViewName, MasterName);
+                ViewEngineResult viewResult = GetView(context, ViewName, MasterName);
 
                 // view not found, throw an exception with searched locations
                 if (viewResult.View == null)
