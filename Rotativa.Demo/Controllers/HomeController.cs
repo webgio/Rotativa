@@ -122,5 +122,14 @@ namespace Rotativa.Demo.Controllers
         {
             return new RouteAsPdf("TestRoute", new {name = "Giorgio"}) { FileName = "Test.pdf" };
         }
+        
+        public ActionResult BinaryTest()
+        {
+            var pdfResult = new ActionAsPdf("Index", new { name = "Giorgio" }) { FileName = "Test.pdf" };
+
+            var binary = pdfResult.BuildPdf(this.ControllerContext);
+
+            return File(binary, "application/pdf");
+        }
     }
 }

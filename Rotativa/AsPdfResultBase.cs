@@ -145,6 +145,7 @@ namespace Rotativa
         [OptionFlag("")]
         public string CustomSwitches { get; set; }
 
+        [Obsolete(@"Use BuildPdf(this.ControllerContext) method instead and use the resulting binary data to do what needed.")]
         public string SaveOnServerPath { get; set; }
 
         protected AsPdfResultBase()
@@ -204,7 +205,11 @@ namespace Rotativa
         {
             var switches = string.Empty;
 
-            HttpCookie authenticationCookie = context.HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
+            HttpCookie authenticationCookie = null;
+            if (context.HttpContext.Request.Cookies != null && context.HttpContext.Request.Cookies.AllKeys.Contains(FormsAuthentication.FormsCookieName))
+            {
+                authenticationCookie = context.HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
+            }
             if (authenticationCookie != null)
             {
                 var authCookieValue = authenticationCookie.Value;
@@ -226,14 +231,10 @@ namespace Rotativa
             return fileContent;
         }
 
-        public override void ExecuteResult(ControllerContext context)
+        public byte[] BuildPdf(ControllerContext context)
         {
             if (context == null)
                 throw new ArgumentNullException("context");
-
-            var response = PrepareResponse(context.HttpContext.Response);
-
-            var switches = GetWkParams(context);
 
             if (WkhtmltopdfPath == string.Empty)
                 WkhtmltopdfPath = HttpContext.Current.Server.MapPath("~/Rotativa");
@@ -244,6 +245,15 @@ namespace Rotativa
             {
                 File.WriteAllBytes(SaveOnServerPath, fileContent);
             }
+
+            return fileContent;
+        }
+
+        public override void ExecuteResult(ControllerContext context)
+        {
+            var fileContent = BuildPdf(context);
+
+            var response = PrepareResponse(context.HttpContext.Response);
 
             response.OutputStream.Write(fileContent, 0, fileContent.Length);
         }

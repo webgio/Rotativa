@@ -33,12 +33,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MvcContrib.TestHelper">
+      <HintPath>..\packages\MvcContrib.Mvc3.TestHelper-ci.3.0.100.0\lib\MvcContrib.TestHelper.dll</HintPath>
+    </Reference>
     <Reference Include="MvcIntegrationTestFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>MvcIntegrationTestFramework\MvcIntegrationTestFramework.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.0.12051, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.6.0.12054\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.Mocks">
+      <HintPath>..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
     </Reference>
     <Reference Include="SharpTestsEx">
       <HintPath>..\packages\SharpTestsEx.1.1.1\lib\SharpTestsEx.dll</HintPath>
@@ -57,11 +63,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BinaryTests.cs" />
     <Compile Include="SavePdfOnServerTests.cs" />
     <Compile Include="WkhtmltopdfCommandLineStringTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Rotativa.Demo\Rotativa.Demo.csproj">
+      <Project>{8EC08BFB-6ABA-4D71-8405-77AFF5859F3D}</Project>
+      <Name>Rotativa.Demo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Rotativa.Tests\Rotativa.Tests.csproj">
+      <Project>{DE9EB72A-2AE7-42E8-9A44-AA525B463688}</Project>
+      <Name>Rotativa.Tests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Rotativa\Rotativa.csproj">
       <Project>{D93FAA11-31F0-4629-B53C-AA8680283529}</Project>
       <Name>Rotativa</Name>
