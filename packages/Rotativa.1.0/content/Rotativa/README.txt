@@ -1,11 +1,19 @@
-﻿This folder contains file necessary to Rotativa to generate Pdf files
+﻿This folder contains files necessary to Rotativa to generate PDF files.
 
-Please don't move or rename them or the folder itself
+Please don't move or rename them nor the folder itself.
 
-If you need to you should add a key in web.config with the path to this files:
+If you really need to, you should set the WkhtmltopdfPath property on that 
+folder path when creating a new ViewAsPdf, PartialViewAsPdf, ActionAsPdf, 
+RouteAsPdf, UrlAsPdf. 
 
-  <appSettings>
-	
-    <add key="WkhtmltopdfPath" value="c:\pathtothefolder"/>
+Example: 
 
-  </appSettings>
+public ActionResult MyControllerAction
+{
+    // Your MVC controller action
+    // ...
+    
+    string rotativaLibsPath = HostingEnvironment.MapPath("~/MyLibs/RotativaLibs");
+    
+    return new ViewAsPdf("myViewName", myViewModel) { WkhtmltopdfPath = rotativaLibsPath };
+}
