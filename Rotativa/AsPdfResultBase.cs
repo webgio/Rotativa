@@ -206,9 +206,9 @@ namespace Rotativa
             var switches = string.Empty;
 
             HttpCookie authenticationCookie = null;
-            if (context.HttpContext.Request.Cookies != null && context.HttpContext.Request.Cookies.AllKeys.Contains(FormsAuthentication.FormsCookieName))
+            if (context.HttpContext.Request.Cookies != null && context.HttpContext.Request.Cookies.AllKeys.Contains(FormsAuthenticationCookieName))
             {
-                authenticationCookie = context.HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
+                authenticationCookie = context.HttpContext.Request.Cookies[FormsAuthenticationCookieName];
             }
             if (authenticationCookie != null)
             {
