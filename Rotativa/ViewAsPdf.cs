@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -8,6 +9,9 @@ namespace Rotativa
 {
     public class ViewAsPdf : AsPdfResultBase
     {
+        private Regex _urlRootReplacement = new Regex(@"( href=[""']| src=[""']|[ :]url\()/", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        private Regex _urlRelativeReplacement = new Regex(@"( href=[""']| src=[""']|[ :]url\()(?!(?:http|https|ftp):)", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+
         private string _viewName;
 
         public string ViewName
@@ -101,11 +105,15 @@ namespace Rotativa
                 StringBuilder html = sw.GetStringBuilder();
 
                 // replace href and src attributes with full URLs
-                string baseUrl = string.Format("{0}://{1}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority);
-                html.Replace(" href=\"/", string.Format(" href=\"{0}/", baseUrl));
-                html.Replace(" src=\"/", string.Format(" src=\"{0}/", baseUrl));
+                string baseUrl = string.Format("{0}://{1}/", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority);
+                string relativeUrl = string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.Url.AbsolutePath);
 
-                var fileContent = WkhtmltopdfDriver.ConvertHtml(WkhtmltopdfPath, GetConvertOptions(), html.ToString());
+                if (!relativeUrl.EndsWith("/")) relativeUrl = relativeUrl + "/";
+
+                string buffer = _urlRootReplacement.Replace(html.ToString(), String.Format("$1{0}", baseUrl));
+                buffer = _urlRelativeReplacement.Replace(buffer, String.Format("$1{0}", relativeUrl));
+
+                var fileContent = WkhtmltopdfDriver.ConvertHtml(WkhtmltopdfPath, GetConvertOptions(), buffer);
                 return fileContent;
             }
         }
