@@ -9,9 +9,6 @@ namespace Rotativa
 {
     public class ViewAsPdf : AsPdfResultBase
     {
-        private Regex _urlRootReplacement = new Regex(@"( href=[""']| src=[""']|[ :]url\()/", RegexOptions.IgnoreCase | RegexOptions.Multiline);
-        private Regex _urlRelativeReplacement = new Regex(@"( href=[""']| src=[""']|[ :]url\()(?!(?:http|https|ftp):)", RegexOptions.IgnoreCase | RegexOptions.Multiline);
-
         private string _viewName;
 
         public string ViewName
