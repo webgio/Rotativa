@@ -53,19 +53,19 @@ namespace Rotativa
             }
 
             var proc = new Process
-                           {
-                               StartInfo = new ProcessStartInfo
-                                               {
-                                                   FileName = Path.Combine(wkhtmltopdfPath, "wkhtmltopdf.exe"),
-                                                   Arguments = switches,
-                                                   UseShellExecute = false,
-                                                   RedirectStandardOutput = true,
-                                                   RedirectStandardError = true,
-                                                   RedirectStandardInput = true,
-                                                   WorkingDirectory = wkhtmltopdfPath,
-                                                   CreateNoWindow = true
-                                               }
-                           };
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = Path.Combine(wkhtmltopdfPath, "wkhtmltopdf.exe"),
+                    Arguments = switches,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    RedirectStandardInput = true,
+                    WorkingDirectory = wkhtmltopdfPath,
+                    CreateNoWindow = true
+                }
+            };
             proc.Start();
 
             // generate PDF from given HTML string, not from URL

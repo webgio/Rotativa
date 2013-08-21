@@ -15,6 +15,9 @@ namespace Rotativa
 {
     public abstract class AsPdfResultBase : ActionResult
     {
+        protected Regex _urlRootReplacement = new Regex(@"( href=[""']| src=[""']|[ :]url\()/", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        protected Regex _urlRelativeReplacement = new Regex(@"( href=[""']| src=[""']|[ :]url\()(?!(?:http|https|ftp):)", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+
         private const string ContentType = "application/pdf";
 
         /// <summary>

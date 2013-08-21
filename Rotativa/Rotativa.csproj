@@ -45,6 +45,10 @@
   <ItemGroup>
     <Compile Include="ActionAsPdf.cs" />
     <Compile Include="AsPdfResultBase.cs" />
+    <Compile Include="PageAsPdf.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HtmlAsPdf.cs" />
     <Compile Include="Options\Margins.cs" />
     <Compile Include="Options\OptionFlag.cs" />
     <Compile Include="Options\Enums.cs" />
