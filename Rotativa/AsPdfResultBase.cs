@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -148,11 +149,14 @@ namespace Rotativa
         [Obsolete(@"Use BuildPdf(this.ControllerContext) method instead and use the resulting binary data to do what needed.")]
         public string SaveOnServerPath { get; set; }
 
+        public Boolean UseSystemProxy { get; set; }
+
         protected AsPdfResultBase()
         {
             WkhtmltopdfPath = string.Empty;
             FormsAuthenticationCookieName = ".ASPXAUTH";
             PageMargins = new Margins();
+            UseSystemProxy = false;
         }
 
         protected abstract string GetUrl(ControllerContext context);
@@ -206,9 +210,9 @@ namespace Rotativa
             var switches = string.Empty;
 
             HttpCookie authenticationCookie = null;
-            if (context.HttpContext.Request.Cookies != null && context.HttpContext.Request.Cookies.AllKeys.Contains(FormsAuthentication.FormsCookieName))
+            if (context.HttpContext.Request.Cookies != null && context.HttpContext.Request.Cookies.AllKeys.Contains(FormsAuthenticationCookieName))
             {
-                authenticationCookie = context.HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
+                authenticationCookie = context.HttpContext.Request.Cookies[FormsAuthenticationCookieName];
             }
             if (authenticationCookie != null)
             {
@@ -216,9 +220,22 @@ namespace Rotativa
                 switches += " --cookie " + FormsAuthenticationCookieName + " " + authCookieValue;
             }
 
-            switches += " " + GetConvertOptions();
+            var convertOptions = GetConvertOptions();
 
+            switches += " " + convertOptions;
             var url = GetUrl(context);
+
+            if (!convertOptions.Contains("-p") && UseSystemProxy)
+            {
+                var proxy = WebRequest.GetSystemWebProxy();
+                var destination = new Uri(url);
+                if (!proxy.IsBypassed(destination))
+                {
+                    //Use system proxy if needed
+                    switches += " -p " + proxy.GetProxy(destination).OriginalString;
+                }
+            }
+
             switches += " " + url;
 
             return switches;
