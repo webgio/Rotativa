@@ -114,7 +114,7 @@ namespace Rotativa
         /// <summary>
         /// Sets proxy server.
         /// </summary>
-        [OptionFlag("-p")]
+        [OptionFlag("--proxy")]
         public string Proxy { get; set; }
 
         /// <summary>
