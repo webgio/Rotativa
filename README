@@ -1,4 +1,6 @@
-﻿Extremely easy way to create Pdf files from Asp.net MVC.
+﻿Modified from original to support multiple cookies
+
+Extremely easy way to create Pdf files from Asp.net MVC.
 
 Usage:
 

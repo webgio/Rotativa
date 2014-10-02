@@ -28,19 +28,9 @@ namespace Rotativa
         public string WkhtmltopdfPath { get; set; }
 
         /// <summary>
-        /// Custom name of authentication cookie used by forms authentication.
+        /// Name of all the cookies
         /// </summary>
-        [Obsolete("Use FormsAuthenticationCookieName instead of CookieName.")]
-        public string CookieName
-        {
-            get { return FormsAuthenticationCookieName; }
-            set { FormsAuthenticationCookieName = value; }
-        }
-
-        /// <summary>
-        /// Custom name of authentication cookie used by forms authentication.
-        /// </summary>
-        public string FormsAuthenticationCookieName { get; set; }
+        public IList<string> CookieNames { get; set; }
 
         /// <summary>
         /// Sets the page margins.
@@ -124,7 +114,7 @@ namespace Rotativa
         /// <summary>
         /// Sets proxy server.
         /// </summary>
-        [OptionFlag("-p")]
+        [OptionFlag("--proxy")]
         public string Proxy { get; set; }
 
         /// <summary>
@@ -151,7 +141,7 @@ namespace Rotativa
         protected AsPdfResultBase()
         {
             WkhtmltopdfPath = string.Empty;
-            FormsAuthenticationCookieName = ".ASPXAUTH";
+            CookieNames = new List<string>() { ".ASPXAUTH" };
             PageMargins = new Margins();
         }
 
@@ -205,15 +195,13 @@ namespace Rotativa
         {
             var switches = string.Empty;
 
-            HttpCookie authenticationCookie = null;
-            if (context.HttpContext.Request.Cookies != null && context.HttpContext.Request.Cookies.AllKeys.Contains(FormsAuthentication.FormsCookieName))
+            foreach (var cookieName in CookieNames)
             {
-                authenticationCookie = context.HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
-            }
-            if (authenticationCookie != null)
-            {
-                var authCookieValue = authenticationCookie.Value;
-                switches += " --cookie " + FormsAuthenticationCookieName + " " + authCookieValue;
+                var cookie = HttpContext.Current.Request.Cookies[cookieName];
+                if (cookie != null)
+                {
+                    switches += string.Format(" --cookie {0} {1}", cookie.Name, cookie.Value);
+                }
             }
 
             switches += " " + GetConvertOptions();
@@ -228,6 +216,7 @@ namespace Rotativa
         {
             var switches = GetWkParams(context);
             var fileContent = WkhtmltopdfDriver.Convert(WkhtmltopdfPath, switches);
+
             return fileContent;
         }
 

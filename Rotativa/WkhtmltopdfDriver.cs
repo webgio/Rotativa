@@ -43,7 +43,7 @@ namespace Rotativa
             //     "-q"  - silent output, only errors - no progress messages
             //     " -"  - switch output to stdout
             //     "- -" - switch input to stdin and output to stdout
-            switches = "-q " + switches + " -";
+            switches = " " + switches + " -";
 
             // generate PDF from given HTML string, not from URL
             if (!string.IsNullOrEmpty(html))
@@ -98,6 +98,7 @@ namespace Rotativa
 
             proc.WaitForExit();
 
+            //return null;
             return ms.ToArray();
         }
 
