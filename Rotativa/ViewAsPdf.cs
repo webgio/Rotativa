@@ -101,7 +101,9 @@ namespace Rotativa
                 StringBuilder html = sw.GetStringBuilder();
 
                 // replace href and src attributes with full URLs
-                string baseUrl = string.Format("{0}://{1}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority);
+                // string baseUrl = string.Format("{0}://{1}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority);
+                // Use the original HttpContext from the passed in ControllerContext. In some situations the HttpContext is null. An async (awaited) DI injected service with Ninject lost his HttpContext.
+                string baseUrl = string.Format("{0}://{1}", context.HttpContext.Request.Url.Scheme, context.HttpContext.Request.Url.Authority);
                 html.Replace(" href=\"/", string.Format(" href=\"{0}/", baseUrl));
                 html.Replace(" src=\"/", string.Format(" src=\"{0}/", baseUrl));
 
