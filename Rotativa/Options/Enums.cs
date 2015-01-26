@@ -165,4 +165,11 @@ namespace Rotativa.Options
         Landscape,
         Portrait
     }
+
+    public enum ContentDisposition
+    {
+       Attachment,
+       Inline
+    }
+
 }
