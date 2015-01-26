@@ -23,6 +23,11 @@ namespace Rotativa
         public string FileName { get; set; }
 
         /// <summary>
+        /// This will be send to the browser as the content disposition telling it how to return the document
+        /// </summary>
+        public ContentDisposition ContentDisposition { get; set; }
+
+        /// <summary>
         /// Path to wkhtmltopdf binary.
         /// </summary>
         public string WkhtmltopdfPath { get; set; }
@@ -271,8 +276,26 @@ namespace Rotativa
         {
             response.ContentType = ContentType;
 
-            if (!String.IsNullOrEmpty(FileName))
-                response.AddHeader("Content-Disposition", string.Format("attachment; filename=\"{0}\"", SanitizeFileName(FileName)));
+           if(!String.IsNullOrEmpty(FileName))
+           {
+              if(ContentDisposition == ContentDisposition.Attachment)
+              {
+                 response.AddHeader(
+                    "Content-Disposition",
+                    string.Format("attachment; filename=\"{0}\"", SanitizeFileName(FileName)));
+              }
+              else if(ContentDisposition == ContentDisposition.Inline)
+              {
+                 response.AddHeader("Content-Disposition", string.Format("inline; filename=\"{0}\"", SanitizeFileName(FileName)));
+              }
+              else
+              {
+                 response.AddHeader(
+                    "Content-Disposition",
+                    string.Format("attachment; filename=\"{0}\"", SanitizeFileName(FileName)));
+                 
+              }
+           }
 
             response.AddHeader("Content-Type", ContentType);
 
