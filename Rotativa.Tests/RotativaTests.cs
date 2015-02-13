@@ -23,7 +23,7 @@ namespace Rotativa.Tests
         [TestFixtureSetUp]
         public void SetupTest()
         {
-            selenium = new FirefoxDriver();
+            selenium = new InternetExplorerDriver();
             selenium.Manage().Timeouts().ImplicitlyWait(new TimeSpan(0, 0, 10));
             verificationErrors = new StringBuilder();
         }
@@ -38,7 +38,7 @@ namespace Rotativa.Tests
         [TestFixtureTearDown]
         public void FixtureTearDown()
         {
-            if (selenium != null) selenium.Close();
+            if (selenium != null) selenium.Quit();
         }
 
         [Test]
@@ -70,9 +70,11 @@ namespace Rotativa.Tests
             var testLink = selenium.FindElement(By.LinkText("Logged In Test"));
             var pdfHref = testLink.GetAttribute("href");
             testLink.Click();
+            
             var username = selenium.FindElement(By.Id("UserName"));
             username.SendKeys("admin");
             var password = selenium.FindElement(By.Id("Password"));
+            password.Clear();
             password.SendKeys("admin");
             password.Submit();
             var manage = selenium.Manage();
