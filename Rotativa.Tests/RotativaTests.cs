@@ -23,7 +23,7 @@ namespace Rotativa.Tests
         [TestFixtureSetUp]
         public void SetupTest()
         {
-            selenium = new InternetExplorerDriver();
+            selenium = new ChromeDriver();
             selenium.Manage().Timeouts().ImplicitlyWait(new TimeSpan(0, 0, 10));
             verificationErrors = new StringBuilder();
         }
