@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Rotativa
@@ -43,7 +44,9 @@ namespace Rotativa
             //     "-q"  - silent output, only errors - no progress messages
             //     " -"  - switch output to stdout
             //     "- -" - switch input to stdin and output to stdout
-            switches = " " + switches + " -";
+
+            var tempFile = Path.GetTempFileName();
+            switches = " " + switches + " \"" + tempFile + "\"";
 
             // generate PDF from given HTML string, not from URL
             if (!string.IsNullOrEmpty(html))
@@ -59,9 +62,9 @@ namespace Rotativa
                                                    FileName = Path.Combine(wkhtmltopdfPath, "wkhtmltopdf.exe"),
                                                    Arguments = switches,
                                                    UseShellExecute = false,
-                                                   RedirectStandardOutput = true,
-                                                   RedirectStandardError = true,
-                                                   RedirectStandardInput = true,
+                                                   //RedirectStandardOutput = true,
+                                                   //RedirectStandardError = true,
+                                                   //RedirectStandardInput = true,
                                                    WorkingDirectory = wkhtmltopdfPath,
                                                    CreateNoWindow = true
                                                }
@@ -69,37 +72,40 @@ namespace Rotativa
             proc.Start();
 
             // generate PDF from given HTML string, not from URL
-            if (!string.IsNullOrEmpty(html))
-            {
-                using (var sIn = proc.StandardInput)
-                {
-                    sIn.WriteLine(html);
-                }
-            }
+            //if (!string.IsNullOrEmpty(html))
+            //{
+            //    using (var sIn = proc.StandardInput)
+            //    {
+            //        sIn.WriteLine(html);
+            //    }
+            //}
 
-            var ms = new MemoryStream();
-            using (var sOut = proc.StandardOutput.BaseStream)
-            {
-                byte[] buffer = new byte[4096];
-                int read;
+            //var ms = new MemoryStream();
+            //using (var sOut = proc.StandardOutput.BaseStream)
+            //{
+            //    byte[] buffer = new byte[4096];
+            //    int read;
 
-                while ((read = sOut.Read(buffer, 0, buffer.Length)) > 0)
-                {
-                    ms.Write(buffer, 0, read);
-                }
-            }
+            //    while ((read = sOut.Read(buffer, 0, buffer.Length)) > 0)
+            //    {
+            //        ms.Write(buffer, 0, read);
+            //    }
+            //}
 
-            string error = proc.StandardError.ReadToEnd();
+            //string error = proc.StandardError.ReadToEnd();
 
-            if (ms.Length == 0)
-            {
-                throw new Exception(error);
-            }
+            //if (ms.Length == 0)
+            //{
+            //    throw new Exception(error);
+            //}
 
             proc.WaitForExit();
 
             //return null;
-            return ms.ToArray();
+            //return ms.ToArray();
+            var data = File.ReadAllBytes(tempFile);
+            File.Delete(tempFile);
+            return data;
         }
 
         /// <summary>
