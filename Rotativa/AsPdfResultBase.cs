@@ -43,6 +43,12 @@ namespace Rotativa
         public string FormsAuthenticationCookieName { get; set; }
 
         /// <summary>
+        /// Sets custom headers.
+        /// </summary>
+        [OptionFlag("--custom-header")]
+        public Dictionary<string, string> CustomHeaders { get; set; }
+
+        /// <summary>
         /// Sets the page margins.
         /// </summary>
         public Margins PageMargins { get; set; }
