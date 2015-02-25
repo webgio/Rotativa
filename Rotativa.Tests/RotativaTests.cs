@@ -176,5 +176,21 @@ namespace Rotativa.Tests
                 pdfTester.PdfContains(content).Should().Be.True();
             }
         }
+
+        [Test]
+        public void Can_print_pdf_from_page_with_external_css_file()
+        {
+            var testLink = selenium.FindElement(By.LinkText("External CSS Test"));
+            var pdfHref = testLink.GetAttribute("href");
+            var content = "Hi guys, this content shows up thanks to css file.";
+            using (var wc = new WebClient())
+            {
+                var pdfResult = wc.DownloadData(new Uri(pdfHref));
+                var pdfTester = new PdfTester();
+                pdfTester.LoadPdf(pdfResult);
+                pdfTester.PdfIsValid.Should().Be.True();
+                pdfTester.PdfContains(content).Should().Be.True();
+            }
+        }
     }
 }

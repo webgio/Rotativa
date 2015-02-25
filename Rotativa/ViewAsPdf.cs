@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -98,14 +99,14 @@ namespace Rotativa
                 var viewContext = new ViewContext(context, viewResult.View, context.Controller.ViewData, context.Controller.TempData, sw);
                 viewResult.View.Render(viewContext, sw);
 
-                StringBuilder html = sw.GetStringBuilder();
+                string html = sw.GetStringBuilder().ToString();
 
-                // replace href and src attributes with full URLs
+                // add base tag to the html doc, to allow wkhtmltopdf to resolve links etc.
                 string baseUrl = string.Format("{0}://{1}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority);
-                html.Replace(" href=\"/", string.Format(" href=\"{0}/", baseUrl));
-                html.Replace(" src=\"/", string.Format(" src=\"{0}/", baseUrl));
+                html = Regex.Replace(html, "<head>", string.Format("<head><base href=\"{0}\" />", baseUrl),
+                              RegexOptions.IgnoreCase);
 
-                var fileContent = WkhtmltopdfDriver.ConvertHtml(WkhtmltopdfPath, GetConvertOptions(), html.ToString());
+                var fileContent = WkhtmltopdfDriver.ConvertHtml(WkhtmltopdfPath, GetConvertOptions(), html);
                 return fileContent;
             }
         }
