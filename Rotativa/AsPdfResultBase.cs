@@ -38,6 +38,11 @@ namespace Rotativa
         }
 
         /// <summary>
+        /// This will be send to the browser as the content disposition telling it how to return the document
+        /// </summary>
+        public ContentDisposition ContentDisposition { get; set; }
+
+        /// <summary>
         /// Custom name of authentication cookie used by forms authentication.
         /// </summary>
         public string FormsAuthenticationCookieName { get; set; }
@@ -277,8 +282,10 @@ namespace Rotativa
         {
             response.ContentType = ContentType;
 
+            string contentDisposition = ContentDisposition == ContentDisposition.Inline ? "inline" : "attachment";
+
             if (!String.IsNullOrEmpty(FileName))
-                response.AddHeader("Content-Disposition", string.Format("attachment; filename=\"{0}\"", SanitizeFileName(FileName)));
+               response.AddHeader("Content-Disposition", string.Format("{0}; filename=\"{1}\"", contentDisposition, SanitizeFileName(FileName)));
 
             response.AddHeader("Content-Type", ContentType);
 
