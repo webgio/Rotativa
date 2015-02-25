@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@section head
+{
+    <base href="http://localhost:12237/">
+}
+
+<h2>Index</h2>
+
+<div id="ajaxContent"></div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(function() {
+
+            $('#ajaxContent').load('http://localhost:12237/AjaxTests/AjaxContent');
+        })
+
+    </script>
+}

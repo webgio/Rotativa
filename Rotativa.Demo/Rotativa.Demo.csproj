@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AjaxTestsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
@@ -168,6 +169,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\TestPartialViewWithModel.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\AjaxTests\AjaxContent.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\AjaxTests\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
