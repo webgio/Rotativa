@@ -43,16 +43,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionAsImage.cs" />
     <Compile Include="ActionAsPdf.cs" />
+    <Compile Include="AsImageResultBase.cs" />
     <Compile Include="AsPdfResultBase.cs" />
+    <Compile Include="AsResultBase.cs" />
+    <Compile Include="Extensions\ControllerContextExtensions.cs" />
     <Compile Include="Options\Margins.cs" />
     <Compile Include="Options\OptionFlag.cs" />
     <Compile Include="Options\Enums.cs" />
+    <Compile Include="PartialViewAsImage.cs" />
     <Compile Include="PartialViewAsPdf.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RouteAsImage.cs" />
     <Compile Include="RouteAsPdf.cs" />
+    <Compile Include="UrlAsImage.cs" />
     <Compile Include="UrlAsPdf.cs" />
+    <Compile Include="ViewAsImage.cs" />
     <Compile Include="ViewAsPdf.cs" />
+    <Compile Include="WkhtmlDriver.cs" />
+    <Compile Include="WkhtmltoimageDriver.cs" />
     <Compile Include="WkhtmltopdfDriver.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +72,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Rotativa\help-wkhtmltoimage.txt" />
+    <Content Include="Rotativa\help-wkhtmltopdf.txt" />
+    <Content Include="Rotativa\wkhtmltoimage.exe" />
     <Content Include="Rotativa\wkhtmltopdf.exe" />
   </ItemGroup>
   <ItemGroup />

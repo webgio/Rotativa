@@ -29,7 +29,7 @@ namespace Rotativa
         
         protected override ViewEngineResult GetView(ControllerContext context, string viewName, string masterName)
         {
-            return ViewEngines.Engines.FindPartialView(context, ViewName);
+            return ViewEngines.Engines.FindPartialView(context, viewName);
         }
     }
 }

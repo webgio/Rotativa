@@ -54,6 +54,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
@@ -65,6 +66,7 @@
   <ItemGroup>
     <Compile Include="BinaryTests.cs" />
     <Compile Include="SavePdfOnServerTests.cs" />
+    <Compile Include="WkhtmltoimageCommandLineStringTests.cs" />
     <Compile Include="WkhtmltopdfCommandLineStringTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

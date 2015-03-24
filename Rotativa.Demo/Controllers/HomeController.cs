@@ -28,6 +28,16 @@ namespace Rotativa.Demo.Controllers
             return new ActionAsPdf("Index", new { name = "Giorgio" }) { FileName = "Test.pdf" };
         }
 
+        public ActionResult TestImage()
+        {
+            return new ActionAsImage("Index", new { name = "Giorgio" }) { FileName = "Test.jpg" };
+        }
+
+        public ActionResult TestImagePng()
+        {
+            return new ActionAsImage("Index", new { name = "Giorgio" }) { FileName = "Test.png", Format = ImageFormat.png };
+        }
+
         public ActionResult TestUrl()
         {
             // Now I realize that this isn't very expressive example of why this can be useful.
@@ -70,6 +80,21 @@ namespace Rotativa.Demo.Controllers
             };
         }
 
+        public ActionResult TestViewImage()
+        {
+            // The more usual way of using this would be to have a Model object that you would pass into ViewAsImage
+            // and work with that Model inside your View.
+            // Good example could be an Order Summary page on some fictional E-shop.
+
+            // Probably the biggest advantage of this approach is that you have Session object available.
+
+            ViewBag.Message = string.Format("Hello {0} to ASP.NET MVC!", "Giorgio III.");
+            return new ViewAsImage("Index")
+            {
+                FileName = "TestView.png",
+            };
+        }
+
         public ActionResult TestSaveOnServer(string fileName)
         {
             // The more usual way of using this would be to have a Model object that you would pass into ViewAsPdf
@@ -89,16 +114,44 @@ namespace Rotativa.Demo.Controllers
             };
         }
 
+        public ActionResult TestImageSaveOnServer(string fileName)
+        {
+            // The more usual way of using this would be to have a Model object that you would pass into ViewAsPdf
+            // and work with that Model inside your View.
+            // Good example could be an Order Summary page on some fictional E-shop.
+
+            // Probably the biggest advantage of this approach is that you have Session object available.
+            var filePath = Path.Combine(Server.MapPath("/App_Data"), fileName);
+            ViewBag.Message = string.Format("Hello {0} to ASP.NET MVC!", "Giorgio III.");
+            return new ViewAsImage("Index")
+            {
+                FileName = fileName,
+                SaveOnServerPath = filePath
+            };
+        }
+
         public ActionResult TestViewWithModel(string id)
         {
             var model = new TestViewModel { DocTitle = id, DocContent = "This is a test" };
             return new ViewAsPdf(model);
         }
 
+        public ActionResult TestImageViewWithModel(string id)
+        {
+            var model = new TestViewModel { DocTitle = id, DocContent = "This is a test" };
+            return new ViewAsImage("TestViewWithModel", model);
+        }
+
         public ActionResult TestPartialViewWithModel(string id)
         {
             var model = new TestViewModel { DocTitle = id, DocContent = "This is a test with a partial view" };
             return new PartialViewAsPdf(model);
+        }
+
+        public ActionResult TestImagePartialViewWithModel(string id)
+        {
+            var model = new TestViewModel { DocTitle = id, DocContent = "This is a test with a partial view" };
+            return new PartialViewAsImage("TestPartialViewWithModel", model);
         }
 
         public ActionResult ErrorTest()
@@ -116,6 +169,12 @@ namespace Rotativa.Demo.Controllers
         public ActionResult AuthorizedTest()
         {
             return new ActionAsPdf("AuthorizedIndex") { FileName = "AuthorizedTest.pdf" };
+        }
+
+        [Authorize]
+        public ActionResult AuthorizedTestImage()
+        {
+            return new ActionAsImage("AuthorizedIndex") { FileName = "AuthorizedTest.jpg" };
         }
 
         public ActionResult RouteTest()

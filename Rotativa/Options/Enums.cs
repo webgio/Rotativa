@@ -165,4 +165,13 @@ namespace Rotativa.Options
         Landscape,
         Portrait
     }
+
+    /// <summary>
+    /// Image output format
+    /// </summary>
+    public enum ImageFormat
+    {
+        jpeg,
+        png
+    }
 }

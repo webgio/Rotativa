@@ -1,0 +1,117 @@
+Name:
+  wkhtmltoimage 0.12.2.1 (with patched qt)
+
+Synopsis:
+  wkhtmltoimage [OPTIONS]... <input file> <output file>
+  
+Description:
+  Converts an HTML page into an image, 
+
+General Options:
+      --allow <path>                  Allow the file or files from the specified
+                                      folder to be loaded (repeatable)
+      --cache-dir <path>              Web cache directory
+      --checkbox-checked-svg <path>   Use this SVG file when rendering checked
+                                      checkboxes
+      --checkbox-svg <path>           Use this SVG file when rendering unchecked
+                                      checkboxes
+      --cookie <name> <value>         Set an additional cookie (repeatable),
+                                      value should be url encoded.
+      --cookie-jar <path>             Read and write cookies from and to the
+                                      supplied cookie jar file
+      --crop-h <int>                  Set height for cropping
+      --crop-w <int>                  Set width for cropping
+      --crop-x <int>                  Set x coordinate for cropping
+      --crop-y <int>                  Set y coordinate for cropping
+      --custom-header <name> <value>  Set an additional HTTP header (repeatable)
+      --custom-header-propagation     Add HTTP headers specified by
+                                      --custom-header for each resource request.
+      --no-custom-header-propagation  Do not add HTTP headers specified by
+                                      --custom-header for each resource request.
+      --debug-javascript              Show javascript debugging output
+      --no-debug-javascript           Do not show javascript debugging output
+                                      (default)
+      --encoding <encoding>           Set the default text encoding, for input
+  -H, --extended-help                 Display more extensive help, detailing
+                                      less common command switches
+  -f, --format <format>               Output file format
+      --height <int>                  Set screen height (default is calculated
+                                      from page content) (default 0)
+  -h, --help                          Display help
+      --htmldoc                       Output program html help
+      --images                        Do load or print images (default)
+      --no-images                     Do not load or print images
+  -n, --disable-javascript            Do not allow web pages to run javascript
+      --enable-javascript             Do allow web pages to run javascript
+                                      (default)
+      --javascript-delay <msec>       Wait some milliseconds for javascript
+                                      finish (default 200)
+      --license                       Output license information and exit
+      --load-error-handling <handler> Specify how to handle pages that fail to
+                                      load: abort, ignore or skip (default
+                                      abort)
+      --load-media-error-handling <handler> Specify how to handle media files
+                                      that fail to load: abort, ignore or skip
+                                      (default ignore)
+      --disable-local-file-access     Do not allowed conversion of a local file
+                                      to read in other local files, unless
+                                      explicitly allowed with --allow
+      --enable-local-file-access      Allowed conversion of a local file to read
+                                      in other local files. (default)
+      --manpage                       Output program man page
+      --minimum-font-size <int>       Minimum font size
+      --password <password>           HTTP Authentication password
+      --disable-plugins               Disable installed plugins (default)
+      --enable-plugins                Enable installed plugins (plugins will
+                                      likely not work)
+      --post <name> <value>           Add an additional post field (repeatable)
+      --post-file <name> <path>       Post an additional file (repeatable)
+  -p, --proxy <proxy>                 Use a proxy
+      --quality <int>                 Output image quality (between 0 and 100)
+                                      (default 94)
+  -q, --quiet                         Be less verbose
+      --radiobutton-checked-svg <path> Use this SVG file when rendering checked
+                                      radiobuttons
+      --radiobutton-svg <path>        Use this SVG file when rendering unchecked
+                                      radiobuttons
+      --readme                        Output program readme
+      --run-script <js>               Run this additional javascript after the
+                                      page is done loading (repeatable)
+      --disable-smart-width           Use the specified width even if it is not
+                                      large enough for the content
+      --enable-smart-width            Extend --width to fit unbreakable content
+                                      (default)
+      --stop-slow-scripts             Stop slow running javascripts (default)
+      --no-stop-slow-scripts          Do not Stop slow running javascripts
+      --transparent                   Make the background transparent in pngs
+      --user-style-sheet <url>        Specify a user style sheet, to load with
+                                      every page
+      --username <username>           HTTP Authentication username
+  -V, --version                       Output version information and exit
+      --width <int>                   Set screen width, note that this is used
+                                      only as a guide line. Use
+                                      --disable-smart-width to make it strict.
+                                      (default 1024)
+      --window-status <windowStatus>  Wait until window.status is equal to this
+                                      string before rendering page
+      --zoom <float>                  Use this zoom factor (default 1)
+
+Specifying A Proxy:
+  By default proxy information will be read from the environment variables:
+  proxy, all_proxy and http_proxy, proxy options can also by specified with the
+  -p switch
+
+  <type> := "http://" | "socks5://"
+  <serif> := <username> (":" <password>)? "@"
+  <proxy> := "None" | <type>? <string>? <host> (":" <port>)?
+  
+  Here are some examples (In case you are unfamiliar with the BNF):
+
+  http://user:password@myproxyserver:8080
+  socks5://myproxyserver
+  None
+  
+Contact:
+  If you experience bugs or want to request new features please visit 
+  <https://github.com/wkhtmltopdf/wkhtmltopdf/issues>
+

@@ -19,6 +19,14 @@ namespace Rotativa.Demo.Controllers
                 };
         }
 
+        public ActionResult IndexImage()
+        {
+            return new ViewAsImage("Index")
+            {
+                //CustomSwitches = "--enable-javascript --window-status jsdone"
+            };
+        }
+
         public ActionResult Index2()
         {
             return View("Index");

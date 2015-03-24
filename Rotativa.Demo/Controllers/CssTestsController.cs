@@ -16,5 +16,9 @@ namespace Rotativa.Demo.Controllers
             return new ViewAsPdf();
         }
 
+         public ActionResult IndexImage()
+        {
+            return new ViewAsImage("Index");
+        }
     }
 }
