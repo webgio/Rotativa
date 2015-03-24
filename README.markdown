@@ -25,3 +25,5 @@ public ActionResult TestViewWithModel(string id)
 Also available a RouteAsPdf, UrlAsPdf and ViewAsPdf ActionResult.
 
 It generates Pdf also from authorized actions (web forms authentication).
+
+You can also output images from MVC with ActionAsImage, ViewAsImage, RouteAsImage, UrlAsImage.
