@@ -14,7 +14,7 @@ namespace Rotativa.UnitTests
         {
             return base.GetConvertOptions();
         }
-        protected override string GetUrl(System.Web.Mvc.ControllerContext context)
+        protected override string GetUrl(System.Web.HttpContext context)
         {
             return string.Empty;
         }

@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Rotativa.Extensions;
+using System.Web;
 
 namespace Rotativa
 {
@@ -56,7 +57,7 @@ namespace Rotativa
             MasterName = masterName;
         }
 
-        protected override string GetUrl(ControllerContext context)
+        protected override string GetUrl(HttpContext context)
         {
             return string.Empty;
         }

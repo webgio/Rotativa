@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Rotativa
@@ -12,13 +13,13 @@ namespace Rotativa
             _url = url ?? string.Empty;
         }
 
-        protected override string GetUrl(ControllerContext context)
+        protected override string GetUrl(HttpContext context)
         {
             string urlLower = _url.ToLower();
             if (urlLower.StartsWith("http://") || urlLower.StartsWith("https://"))
                 return _url;
 
-            string url = String.Format("{0}://{1}{2}", context.HttpContext.Request.Url.Scheme, context.HttpContext.Request.Url.Authority, _url);
+            string url = String.Format("{0}://{1}{2}", context.Request.Url.Scheme, context.Request.Url.Authority, _url);
             return url;
         }
     }
