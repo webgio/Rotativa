@@ -103,7 +103,7 @@ namespace Rotativa
         }
 
         [Obsolete(@"Use BuildFile(this.ControllerContext) method instead.")]
-        public byte[] BuildPdf(ControllerContext context)
+        public byte[] BuildPdf(ControllerContext context = null)
         {
             return BuildFile(context);
         }

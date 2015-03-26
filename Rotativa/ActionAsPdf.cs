@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -28,9 +29,9 @@ namespace Rotativa
             this.routeValues = routeValues;
         }
 
-        protected override string GetUrl(ControllerContext context)
+        protected override string GetUrl(HttpContext context)
         {
-            var urlHelper = new UrlHelper(context.RequestContext);
+            var urlHelper = new UrlHelper(context.Request.RequestContext);
 
             string actionUrl = string.Empty;
             if (this.routeValues == null)
@@ -40,7 +41,7 @@ namespace Rotativa
             else
                 actionUrl = urlHelper.Action(this.action);
 
-            string url = String.Format("{0}://{1}{2}", context.HttpContext.Request.Url.Scheme, context.HttpContext.Request.Url.Authority, actionUrl);
+            string url = String.Format("{0}://{1}{2}", context.Request.Url.Scheme, context.Request.Url.Authority, actionUrl);
             return url;
         }
     }

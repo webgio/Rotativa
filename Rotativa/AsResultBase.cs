@@ -102,7 +102,7 @@ namespace Rotativa
         [Obsolete(@"Use BuildFile(this.ControllerContext) method instead and use the resulting binary data to do what needed.")]
         public string SaveOnServerPath { get; set; }
 
-        protected abstract string GetUrl(ControllerContext context);
+		protected abstract string GetUrl(HttpContext context);
 
         /// <summary>
         /// Returns properties with OptionFlag attribute as one line that can be passed to wkhtmltopdf binary.
@@ -145,14 +145,15 @@ namespace Rotativa
             return result.ToString().Trim();
         }
 
-        private string GetWkParams(ControllerContext context)
+        private string GetWkParams(ControllerContext context = null)
         {
+			var httpContext = HttpContext.Current;
             var switches = string.Empty;
 
             HttpCookie authenticationCookie = null;
-            if (context.HttpContext.Request.Cookies != null && context.HttpContext.Request.Cookies.AllKeys.Contains(FormsAuthentication.FormsCookieName))
+			if (httpContext != null && httpContext.Request.Cookies != null && httpContext.Request.Cookies.AllKeys.Contains(FormsAuthentication.FormsCookieName))
             {
-                authenticationCookie = context.HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
+				authenticationCookie = httpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
             }
             if (authenticationCookie != null)
             {
@@ -162,13 +163,13 @@ namespace Rotativa
 
             switches += " " + this.GetConvertOptions();
 
-            var url = this.GetUrl(context);
+            var url = this.GetUrl(httpContext);
             switches += " " + url;
 
             return switches;
         }
 
-        protected virtual byte[] CallTheDriver(ControllerContext context)
+        protected virtual byte[] CallTheDriver(ControllerContext context = null)
         {
             var switches = this.GetWkParams(context);
             var fileContent = this.WkhtmlConvert(switches);
@@ -177,10 +178,8 @@ namespace Rotativa
 
         protected abstract byte[] WkhtmlConvert(string switches);
 
-        public byte[] BuildFile(ControllerContext context)
+        public byte[] BuildFile(ControllerContext context = null)
         {
-            if (context == null)
-                throw new ArgumentNullException("context");
 
             if (this.WkhtmlPath == string.Empty)
                 this.WkhtmlPath = HttpContext.Current.Server.MapPath("~/Rotativa");
