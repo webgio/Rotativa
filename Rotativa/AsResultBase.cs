@@ -180,9 +180,8 @@ namespace Rotativa
 
         public byte[] BuildFile(ControllerContext context = null)
         {
-
             if (this.WkhtmlPath == string.Empty)
-                this.WkhtmlPath = HttpContext.Current.Server.MapPath("~/Rotativa");
+                this.WkhtmlPath = context == null ? HttpContext.Current.Server.MapPath("~/Rotativa") : context.HttpContext.Server.MapPath("~/Rotativa");
 
             var fileContent = this.CallTheDriver(context);
 
