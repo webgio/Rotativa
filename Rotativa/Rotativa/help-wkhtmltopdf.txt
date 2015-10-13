@@ -1,5 +1,5 @@
 Name:
-  wkhtmltopdf 0.12.2.1 (with patched qt)
+  wkhtmltopdf 0.12.2.4 (with patched qt)
 
 Synopsis:
   wkhtmltopdf [GLOBAL OPTION]... [OBJECT]... <output file>
