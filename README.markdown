@@ -31,4 +31,4 @@ You can also output images from MVC with ActionAsImage, ViewAsImage, RouteAsImag
 
 ##Rotativa HQ
 
-[RotativaHQ.com](http://rotativahq.com) is a API (SaaS) version of Rotativa, hosted on Azure. You can register for free.
+[RotativaHQ.com](http://rotativahq.com) is an API (SaaS) version of Rotativa, hosted on Azure. You can register for free.
