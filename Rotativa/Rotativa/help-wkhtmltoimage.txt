@@ -1,5 +1,5 @@
 Name:
-  wkhtmltoimage 0.12.2.1 (with patched qt)
+  wkhtmltoimage 0.12.2.4 (with patched qt)
 
 Synopsis:
   wkhtmltoimage [OPTIONS]... <input file> <output file>
