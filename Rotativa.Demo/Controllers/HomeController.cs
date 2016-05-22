@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using Rotativa.Demo.Models;
 using Rotativa.Options;
@@ -78,6 +80,29 @@ namespace Rotativa.Demo.Controllers
                 PageOrientation = Orientation.Landscape,
                 PageMargins = { Left = 0, Right = 0 }
             };
+        }
+
+        public ActionResult TestQueueablePdf()
+        {
+            var queueableViewAsPdf = new QueueableViewAsPdf(ControllerContext, "Index")
+            {
+                FileName = "TestView.pdf",
+                PageSize = Size.A3,
+                PageOrientation = Orientation.Landscape,
+                PageMargins = {Left = 0, Right = 0}
+            };
+
+            HostingEnvironment.QueueBackgroundWorkItem(e =>
+            {
+                // Put this step in a background work item as it takes most of the time, 
+                // especially when there are multiple files need to be generated.
+
+                var file = queueableViewAsPdf.BuildFile();
+                // Email the file as an attachment.
+            });
+
+            ViewBag.Message = "File will be sent to your email shortly";
+            return View();
         }
 
         public ActionResult TestViewImage()

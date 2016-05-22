@@ -55,6 +55,7 @@
     <Compile Include="PartialViewAsImage.cs" />
     <Compile Include="PartialViewAsPdf.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueueableViewAsPdf.cs" />
     <Compile Include="RouteAsImage.cs" />
     <Compile Include="RouteAsPdf.cs" />
     <Compile Include="UrlAsImage.cs" />
