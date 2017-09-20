@@ -23,7 +23,7 @@ namespace Rotativa.Tests
         private IWebDriver selenium;
         private StringBuilder verificationErrors;
 
-        [TestFixtureSetUp]
+        //[SetUp]
         public void SetupTest()
         {
             selenium = new ChromeDriver();
@@ -34,11 +34,15 @@ namespace Rotativa.Tests
         [SetUp]
         public void TestSetUp()
         {
+            selenium = new ChromeDriver();
+            //selenium = new InternetExplorerDriver();
+            selenium.Manage().Timeouts().ImplicitlyWait(new TimeSpan(0, 0, 10));
+            verificationErrors = new StringBuilder();
             var rotativaDemoUrl = ConfigurationManager.AppSettings["RotativaDemoUrl"];
             selenium.Navigate().GoToUrl(rotativaDemoUrl);
         }
 
-        [TestFixtureTearDown]
+        [TearDown]
         public void FixtureTearDown()
         {
             if (selenium != null) selenium.Quit();
@@ -106,7 +110,8 @@ namespace Rotativa.Tests
 
             var testLink = selenium.FindElement(By.LinkText("Logged In Test"));
             var pdfHref = testLink.GetAttribute("href");
-            testLink.Click();
+            var loginLink = selenium.FindElement(By.ClassName("logon"));
+            loginLink.Click();
             
             var username = selenium.FindElement(By.Id("UserName"));
             username.SendKeys("admin");

@@ -15,6 +15,7 @@ namespace Rotativa.Tests
         private PdfReader pdfReader;
 
         public bool PdfIsValid { get; set; }
+        public Exception PdfException { get; set; }
 
         public void LoadPdf(byte[] pdfcontent)
         {
@@ -25,8 +26,9 @@ namespace Rotativa.Tests
                 var parsed = parser.ExtractTextFromPDFBytes(pdfcontent);
                 this.PdfIsValid = true;
             }
-            catch (InvalidPdfException)
+            catch (InvalidPdfException ex)
             {
+                this.PdfException = ex;
                 this.PdfIsValid = false;
             }
         }

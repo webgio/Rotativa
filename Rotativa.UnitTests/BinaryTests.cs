@@ -27,7 +27,7 @@ namespace Rotativa.UnitTests
         public void Can_build_the_pdf_binary()
         {
             var localPath = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory);
-            var solutionDir = localPath.Parent.Parent.FullName;
+            var solutionDir = localPath.Parent.Parent.Parent.FullName;
             var wkhtmltopdfPath = Path.Combine(solutionDir, "Rotativa", "Rotativa");
             var actionResult = new UrlAsPdf("https://github.com/webgio/Rotativa")
                 {
@@ -47,7 +47,7 @@ namespace Rotativa.UnitTests
         public void Can_build_the_image_binary()
         {
             var localPath = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory);
-            var solutionDir = localPath.Parent.Parent.FullName;
+            var solutionDir = localPath.Parent.Parent.Parent.FullName;
             var wkhtmltoimagePath = Path.Combine(solutionDir, "Rotativa", "Rotativa");
             var actionResult = new UrlAsImage("https://github.com/webgio/Rotativa")
             {
