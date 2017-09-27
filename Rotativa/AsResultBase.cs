@@ -102,6 +102,8 @@ namespace Rotativa
         [Obsolete(@"Use BuildFile(this.ControllerContext) method instead and use the resulting binary data to do what needed.")]
         public string SaveOnServerPath { get; set; }
 
+        public ContentDisposition ContentDisposition { get; set; }
+
         protected abstract string GetUrl(ControllerContext context);
 
         /// <summary>
@@ -218,8 +220,13 @@ namespace Rotativa
             response.ContentType = this.GetContentType();
 
             if (!String.IsNullOrEmpty(this.FileName))
-                response.AddHeader("Content-Disposition", string.Format("attachment; filename=\"{0}\"", SanitizeFileName(this.FileName)));
+            {
+                var contentDisposition = this.ContentDisposition == ContentDisposition.Attachment
+                    ? "attachment"
+                    : "inline";
 
+                response.AddHeader("Content-Disposition", string.Format("{0}; filename=\"{1}\"", contentDisposition, SanitizeFileName(this.FileName)));
+            }
             response.AddHeader("Content-Type", this.GetContentType());
 
             return response;
