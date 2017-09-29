@@ -174,4 +174,10 @@ namespace Rotativa.Options
         jpeg,
         png
     }
+
+    public enum ContentDisposition
+    {
+        Attachment = 0, // this is the default
+        Inline
+    }
 }
