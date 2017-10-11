@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Rotativa</id>
-    <version>1.7.2</version>
+    <version>1.7.3</version>
     <title>Rotativa</title>
     <authors>Giorgio Bozio</authors>
     <owners>Giorgio Bozio</owners>
@@ -11,7 +11,7 @@
     <!--<iconUrl></iconUrl>-->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Extremely easy way to print Pdf in Aspnet Mvc</description>
-    <releaseNotes>Added support for creating images: ActionAsImage, ViewAsImage, RouteAsImage, UrlAsImage. .Net and MVC updated</releaseNotes>
+    <releaseNotes>Added support for Content disposition inline</releaseNotes>
     <copyright>Copyright 2012</copyright>
     <tags>AspNetMvc Pdf</tags>
   </metadata>

@@ -25,7 +25,7 @@ namespace Rotativa.Demo.Controllers
 
         public ActionResult Test()
         {
-            return new ActionAsPdf("Index", new { name = "Giorgio" }) { FileName = "Test.pdf" };
+            return new ActionAsPdf("Index", new { name = "Giorgio" }) { FileName = "Test.pdf", ContentDisposition=ContentDisposition.Inline };
         }
 
         public ActionResult TestImage()
@@ -76,7 +76,8 @@ namespace Rotativa.Demo.Controllers
                 FileName = "TestView.pdf",
                 PageSize = Size.A3,
                 PageOrientation = Orientation.Landscape,
-                PageMargins = { Left = 0, Right = 0 }
+                PageMargins = { Left = 0, Right = 0 },
+                ContentDisposition =ContentDisposition.Inline
             };
         }
 
