@@ -1,4 +1,5 @@
-﻿#Extremely easy way to create Pdf files from Asp.net MVC.
+#Extremely easy way to create Pdf files from Asp.net MVC.
+=========================================================
 
 ##Usage:
 
