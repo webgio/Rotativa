@@ -31,6 +31,10 @@ It generates Pdf also from authorized actions (web forms authentication).
 
 You can also output images from MVC with ActionAsImage, ViewAsImage, RouteAsImage, UrlAsImage.
 
-##Rotativa HQ
+## Rotativa for Asp.Net Core
+Please check the new repo here:
+[Rotativa.AspNetCore](https://github.com/webgio/Rotativa.AspNetCore)
 
-[RotativaHQ.com](http://rotativahq.com) is an API (SaaS) version of Rotativa, hosted on Azure. You can register for free.
+## Rotativa HQ
+
+[RotativaHQ.com](http://rotativahq.com) is an API (SaaS) version of Rotativa, hosted on Azure. Works with just a HTTP call, no need to host the process on your server. You can register for free.
