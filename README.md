@@ -35,6 +35,6 @@ You can also output images from MVC with ActionAsImage, ViewAsImage, RouteAsImag
 Please check the new repo here:
 [Rotativa.AspNetCore](https://github.com/webgio/Rotativa.AspNetCore)
 
-## Rotativa HQ
+## rotativa.io
 
-[RotativaHQ.com](http://rotativahq.com) is an API (SaaS) version of Rotativa, hosted on Azure. Works with just a HTTP call, no need to host the process on your server. You can register for free.
+[rotativa.io](https://rotativa.io) is an API (SaaS) version of Rotativa, hosted on Azure. Works with just a HTTP call, no need to host the process on your server. You can register for free.
