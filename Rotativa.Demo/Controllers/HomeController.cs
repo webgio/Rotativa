@@ -160,6 +160,21 @@ namespace Rotativa.Demo.Controllers
             return new ActionAsPdf("SomethingBad") { FileName = "Test.pdf" };
         }
 
+        public ActionResult HttpStatus500Test()
+        {
+            return new UrlAsPdf("https://httpstat.us/500") { FileName = "Test.pdf" };
+           
+        }
+        public ActionResult HttpStatus404Test()
+        {
+            return new UrlAsPdf("https://httpstat.us/404") { FileName = "Test.pdf" };
+        }
+        public ActionResult HttpStatus200Test()
+        {
+            return new UrlAsPdf("https://httpstat.us/200") { FileName = "Test.pdf" };
+
+        }
+
         public ActionResult SomethingBad()
         {
             return Redirect("http://thisdoesntexists");

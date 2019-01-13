@@ -70,7 +70,7 @@ namespace Rotativa
 
                 string error = proc.StandardError.ReadToEnd();
 
-                if (ms.Length == 0)
+                if (ms.Length == 0 || !string.IsNullOrEmpty(error) || proc.ExitCode > 0)
                 {
                     throw new Exception(error);
                 }
