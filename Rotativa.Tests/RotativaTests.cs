@@ -360,5 +360,40 @@ namespace Rotativa.Tests
                 image.RawFormat.Should().Be.EqualTo(ImageFormat.Jpeg);
             }
         }
+
+        [Test]
+        public void HttpError_statuses_does_not_generate_pdf_file()
+        {
+            var testLink = selenium.FindElement(By.LinkText("HttpStatus 200 Test"));
+            var pdfHref = testLink.GetAttribute("href");
+            
+            var content = "200 OK";
+            using (var wc = new WebClient())
+            {
+                var pdfResult = wc.DownloadData(new Uri(pdfHref));
+                var pdfTester = new PdfTester();
+                pdfTester.LoadPdf(pdfResult);
+                pdfTester.PdfIsValid.Should().Be.True();
+                pdfTester.PdfContains(content).Should().Be.True();
+            }
+
+            testLink = selenium.FindElement(By.LinkText("HttpStatus 404 Test"));
+             pdfHref = testLink.GetAttribute("href");
+
+
+            using (var wc = new WebClient())
+            {
+                Assert.Throws(typeof(WebException), () => wc.DownloadData(new Uri(pdfHref)));
+            }
+
+            testLink = selenium.FindElement(By.LinkText("HttpStatus 500 Test"));
+            pdfHref = testLink.GetAttribute("href");
+
+          
+            using (var wc = new WebClient())
+            {
+                Assert.Throws(typeof(WebException), () => wc.DownloadData(new Uri(pdfHref)));
+            }
+        }
     }
 }
