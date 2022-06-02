@@ -35,7 +35,7 @@
                 viewResult.View.Render(viewContext, sw);
 
                 string html = sw.GetStringBuilder().ToString();
-                string baseUrl = string.Format("{0}://{1}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority);
+                string baseUrl = string.Format("{0}://{1}", context.HttpContext.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority);
                 html = Regex.Replace(html, "<head>", string.Format("<head><base href=\"{0}\" />", baseUrl), RegexOptions.IgnoreCase);
                 return html;
             }
