@@ -47,7 +47,7 @@ namespace Rotativa
 
         protected override byte[] WkhtmlConvert(string switches)
         {
-            return WkhtmltopdfDriver.Convert(this.WkhtmlPath, switches);
+            return WkhtmltopdfDriver.Convert(this.WkhtmlPath, switches, timeout: ConvertTimeout);
         }
 
         protected override string GetContentType()

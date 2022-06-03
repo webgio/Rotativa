@@ -104,6 +104,11 @@ namespace Rotativa
 
         public ContentDisposition ContentDisposition { get; set; }
 
+        /// <summary>
+        /// Timeout for converting to PDF 
+        /// </summary>
+        public int? ConvertTimeout { get; set; }
+
         protected abstract string GetUrl(ControllerContext context);
 
         /// <summary>

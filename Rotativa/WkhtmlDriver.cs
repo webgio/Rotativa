@@ -2,6 +2,8 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Rotativa
 {
@@ -15,7 +17,33 @@ namespace Rotativa
         /// <param name="html">String containing HTML code that should be converted to PDF.</param>
         /// <param name="wkhtmlExe"></param>
         /// <returns>PDF as byte array.</returns>
-        protected static byte[] Convert(string wkhtmlPath, string switches, string html, string wkhtmlExe)
+        protected static byte[] Convert(string wkhtmlPath, string switches, string html, string wkhtmlExe, int? timeout = null)
+        {
+            if (!timeout.HasValue)
+            {
+                return ConvertExecute(wkhtmlPath, ref switches, ref html, wkhtmlExe);
+            }
+            else
+            {
+                var cancellationTokenSource = new CancellationTokenSource();
+                var task = Task.Run(() => ConvertExecute(wkhtmlPath, ref switches, ref html, wkhtmlExe, cancellationTokenSource.Token));
+                task.ConfigureAwait(false);
+                if (!task.Wait(timeout.Value))
+                {
+                    cancellationTokenSource.Cancel();
+                    throw new TimeoutException($"Timeout in converting given URL or HTML string to PDF after {timeout.Value}");
+                }
+
+                if (task.IsFaulted)
+                {
+                    throw task.Exception ?? new Exception("Failed in converting given URL or HTML string to PDF");
+                }
+
+                return task.Result;
+            }
+        }
+
+        private static byte[] ConvertExecute(string wkhtmlPath, ref string switches, ref string html, string wkhtmlExe, CancellationToken cancellationToken = default)
         {
             // switches:
             //     "-q"  - silent output, only errors - no progress messages
@@ -44,6 +72,12 @@ namespace Rotativa
                     CreateNoWindow = true
                 }
             };
+            cancellationToken.Register(() =>
+            {
+                if (!proc.HasExited)
+                    proc.Kill();
+            });
+
             proc.Start();
 
             // generate PDF from given HTML string, not from URL
