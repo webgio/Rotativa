@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Update whtml drivers 0.12.1 -> 0.12.4 https://github.com/wkhtmltopdf/wkhtmltopdf/releases/tag/0.12.4 (based on https://github.com/webgio/Rotativa/pull/115)
+- Fix try to kill process when cancellation requested
 
 ## [1.8.0] - 2022-06-03
 

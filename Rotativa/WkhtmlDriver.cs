@@ -74,8 +74,12 @@ namespace Rotativa
             };
             cancellationToken.Register(() =>
             {
-                if (!proc.HasExited)
-                    proc.Kill();
+                try
+                {
+                    if (!proc.HasExited)
+                        proc.Kill();
+                }
+                catch { }
             });
 
             proc.Start();
