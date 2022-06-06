@@ -75,7 +75,7 @@ namespace Rotativa
 
             ViewEngineResult viewResult = GetView(context, viewName, MasterName);
             string html = context.GetHtmlFromView(viewResult, viewName, Model);
-            byte[] fileContent = WkhtmltopdfDriver.ConvertHtml(this.WkhtmlPath, this.GetConvertOptions(), html);
+            byte[] fileContent = WkhtmltopdfDriver.ConvertHtml(this.WkhtmlPath, this.GetConvertOptions(), html, ConvertTimeout);
             return fileContent;
         }
     }

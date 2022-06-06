@@ -104,6 +104,11 @@ namespace Rotativa
 
         public ContentDisposition ContentDisposition { get; set; }
 
+        /// <summary>
+        /// Timeout for converting to PDF 
+        /// </summary>
+        public int? ConvertTimeout { get; set; }
+
         protected abstract string GetUrl(ControllerContext context);
 
         /// <summary>
@@ -185,7 +190,7 @@ namespace Rotativa
                 throw new ArgumentNullException("context");
 
             if (this.WkhtmlPath == string.Empty)
-                this.WkhtmlPath = HttpContext.Current.Server.MapPath("~/Rotativa");
+                this.WkhtmlPath = context.HttpContext.Server.MapPath("~/Rotativa");
 
             var fileContent = this.CallTheDriver(context);
 
